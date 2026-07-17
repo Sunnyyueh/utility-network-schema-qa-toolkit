@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Sunnyyueh/utility-network-schema-qa-toolkit/schemas/validation-report-v1.schema.json",
+  "title": "Utility Network Schema QA Validation Report V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "toolkit_version",
+    "project_name",
+    "input_fingerprint",
+    "validators",
+    "findings",
+    "summary"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "toolkit_version": { "type": "string", "minLength": 1 },
+    "project_name": { "type": "string", "minLength": 1 },
+    "input_fingerprint": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "validators": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "findings": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/finding" }
+    },
+    "summary": { "$ref": "#/$defs/summary" }
+  },
+  "$defs": {
+    "severity": {
+      "type": "string",
+      "enum": ["info", "warning", "error"]
+    },
+    "location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sheet", "row", "column"],
+      "properties": {
+        "path": { "type": "string" },
+        "sheet": { "type": ["string", "null"] },
+        "row": { "type": ["integer", "null"], "minimum": 1 },
+        "column": { "type": ["string", "null"] }
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "severity",
+        "validator",
+        "message",
+        "recommendation",
+        "dataset",
+        "field",
+        "mapping_id",
+        "location",
+        "details"
+      ],
+      "properties": {
+        "code": { "type": "string", "pattern": "^[A-Z0-9_]+$" },
+        "severity": { "$ref": "#/$defs/severity" },
+        "validator": { "type": "string", "minLength": 1 },
+        "message": { "type": "string", "minLength": 1 },
+        "recommendation": { "type": "string", "minLength": 1 },
+        "dataset": { "type": ["string", "null"] },
+        "field": { "type": ["string", "null"] },
+        "mapping_id": { "type": ["string", "null"] },
+        "location": {
+          "oneOf": [
+            { "$ref": "#/$defs/location" },
+            { "type": "null" }
+          ]
+        },
+        "details": { "type": "object" }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "total", "counts"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["pass", "warning", "fail"]
+        },
+        "total": { "type": "integer", "minimum": 0 },
+        "counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["info", "warning", "error"],
+          "properties": {
+            "info": { "type": "integer", "minimum": 0 },
+            "warning": { "type": "integer", "minimum": 0 },
+            "error": { "type": "integer", "minimum": 0 }
+          }
+        }
+      }
+    }
+  }
+}
+
