@@ -65,3 +65,41 @@ def test_report_schema_guide_references_versioned_schema_and_formats() -> None:
 
     assert "validation-report-v1.schema.json" in documentation
     assert all(f"`{name}`" in documentation for name in ("json", "csv", "markdown", "html"))
+
+
+def test_v1_readme_and_governance_docs_are_release_ready() -> None:
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    required = {
+        "CHANGELOG.md",
+        "CONTRIBUTING.md",
+        "CODE_OF_CONDUCT.md",
+        "SECURITY.md",
+        "docs/tutorials/water.md",
+        "docs/tutorials/wastewater.md",
+        "docs/tutorials/stormwater.md",
+    }
+
+    assert all((ROOT / path).is_file() for path in required)
+    assert "pip install utility-network-schema-qa-toolkit" in readme
+    assert "V1.0" in readme
+    assert all(path in readme for path in required)
+    forbidden = (
+        "planned toolkit",
+        "final command names may change",
+        "planning and initial documentation stage",
+        "independent personal",
+        "employer-owned",
+        "public-safe",
+        "private implementation",
+        "company infrastructure",
+    )
+    assert not any(term in readme.casefold() for term in forbidden)
+
+
+def test_all_local_readme_links_resolve() -> None:
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    links = re.findall(r"\[[^]]+\]\(([^)]+)\)", readme)
+    local = [target.split("#", 1)[0] for target in links if "://" not in target]
+
+    assert local
+    assert all((ROOT / target).exists() for target in local if target)
