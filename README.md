@@ -22,13 +22,25 @@ The toolkit reviews exported metadata and declared relationships. It does not ex
 
 ## Installation
 
-Python 3.10 or newer is required. After the V1 package is published to the package index:
+Python 3.10 or newer is required. Install the latest stable release from [PyPI](https://pypi.org/project/utility-network-schema-qa-toolkit/):
 
 ```bash
-pip install utility-network-schema-qa-toolkit
+python -m pip install utility-network-schema-qa-toolkit
 ```
 
-To install the current repository checkout:
+Pin the V1.0 release when reproducible environments require an exact version:
+
+```bash
+python -m pip install "utility-network-schema-qa-toolkit==1.0.0"
+```
+
+Upgrade an existing installation:
+
+```bash
+python -m pip install --upgrade utility-network-schema-qa-toolkit
+```
+
+To install the current repository checkout instead:
 
 ```bash
 python -m pip install .
@@ -40,6 +52,8 @@ Verify the installation:
 un-schema-qa version
 un-schema-qa list-checks
 ```
+
+The version command prints `un-schema-qa 1.0.0` for this release.
 
 ## Quick start
 
