@@ -12,6 +12,8 @@ from un_schema_qa.models import ValidationResult
 _FILENAMES = {
     "json": "validation-report.json",
     "csv": "validation-report.csv",
+    "markdown": "validation-report.md",
+    "html": "validation-report.html",
 }
 
 
@@ -19,7 +21,7 @@ def write_reports(
     result: ValidationResult,
     output_dir: Path | str | None = None,
     *,
-    formats: Sequence[str] = ("json", "csv"),
+    formats: Sequence[str] = ("json", "csv", "markdown", "html"),
 ) -> dict[str, Path]:
     """Render selected reports and atomically replace fixed output filenames."""
 
@@ -48,9 +50,16 @@ def write_reports(
 
 def _renderers() -> dict[str, Callable[[ValidationResult], str]]:
     from .csv_report import render_csv
+    from .html_report import render_html
     from .json_report import render_json
+    from .markdown_report import render_markdown
 
-    return {"json": render_json, "csv": render_csv}
+    return {
+        "json": render_json,
+        "csv": render_csv,
+        "markdown": render_markdown,
+        "html": render_html,
+    }
 
 
 def _atomic_write(destination: Path, content: str) -> None:
