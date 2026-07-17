@@ -21,8 +21,14 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
-      - name: Install build tools
-        run: python -m pip install --upgrade pip build twine
+      - name: Install project and release tools
+        run: python -m pip install --upgrade pip && python -m pip install '.[dev]'
+      - name: Verify release source
+        run: |
+          ruff format --check .
+          ruff check .
+          mypy src
+          pytest --cov=un_schema_qa --cov-fail-under=90
       - name: Build distributions
         run: python -m build
       - name: Check package metadata
@@ -34,4 +40,3 @@ jobs:
           path: dist/
       - name: Publish through trusted publishing
         uses: pypa/gh-action-pypi-publish@release/v1
-

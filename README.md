@@ -22,7 +22,7 @@ The toolkit reviews exported metadata and declared relationships. It does not ex
 
 ## Installation
 
-Python 3.10 or newer is required.
+Python 3.10 or newer is required. After the V1 package is published to the package index:
 
 ```bash
 pip install utility-network-schema-qa-toolkit
