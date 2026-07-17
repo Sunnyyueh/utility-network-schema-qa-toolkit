@@ -1,0 +1,25 @@
+.worktrees/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+
+# Quality tools
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Builds and generated reports
+build/
+dist/
+reports/
+
+# Local tooling
+.DS_Store
+.idea/
+.vscode/
