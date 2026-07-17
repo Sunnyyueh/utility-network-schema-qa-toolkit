@@ -29,31 +29,6 @@ Utility Network migration is not only a data-loading task. A migration can fail 
 
 This toolkit focuses on the validation layer that should happen before, during, and after Utility Network data loading.
 
-## Relationship to Migration Tooling
-
-This repository provides the schema and QA foundation for migration workflows.
-
-Recommended workflow:
-
-```text
-Utility Network Schema QA Toolkit
-        |
-        v
-Validate schema mapping, domains, asset groups/types, attribute rules,
-dirty-area causes, Data Reference configuration, and QA reports
-        |
-        v
-Geospatial Network Migration Toolkit
-        |
-        v
-Use validated mappings/configuration to support migration planning,
-filtering, staging, loading, review, and optional deployment
-```
-
-Companion migration workflow project:
-
-https://github.com/Sunnyyueh/geospatial-network-migration-toolkit
-
 ## Use Cases
 
 This toolkit can support:
