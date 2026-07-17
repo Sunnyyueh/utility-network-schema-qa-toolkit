@@ -49,6 +49,7 @@ from .row_schemas import (
     SCHEMA_COLUMNS,
     TERMINAL_COLUMNS,
 )
+from .rules import load_engineering_rules
 from .workbooks import detect_sheet, inspect_workbook
 
 
@@ -76,6 +77,11 @@ def load_project_data(config: ProjectConfig) -> ProjectData:
             ),
             terminals=_optional(config.inputs.terminals, TERMINAL_COLUMNS, _terminals),
             dirty_areas=_optional(config.inputs.dirty_areas, DIRTY_AREA_COLUMNS, _dirty_areas),
+            engineering_rules=(
+                load_engineering_rules(config.inputs.engineering_rules)
+                if config.inputs.engineering_rules
+                else ()
+            ),
         )
     except (ValidationError, ValueError) as error:
         raise InputFormatError(f"cannot build canonical project data: {error}") from error

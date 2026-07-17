@@ -1,0 +1,24 @@
+rules:
+  - rule_id: wastewater-force-main
+    priority: 20
+    conditions:
+      - field: flow_regime
+        operator: equals
+        value: pressurized
+    target_asset_group: Main
+    target_asset_type: Force Main
+    explanation: Pressurized wastewater conveyance indicates a force main.
+    requires_review: true
+  - rule_id: wastewater-gravity-main
+    priority: 10
+    conditions:
+      - field: flow_regime
+        operator: equals
+        value: gravity
+      - field: slope
+        operator: greater_than
+        value: 0
+    target_asset_group: Main
+    target_asset_type: Gravity Main
+    explanation: Gravity operation with positive slope supports a gravity main.
+

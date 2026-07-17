@@ -111,6 +111,20 @@ def test_load_optional_domain_asset_and_issue_inventories(tmp_path: Path) -> Non
         "dataset,error_code,global_id,message\nWaterLine,25,{ABC},Invalid geometry\n",
     )
     write(
+        tmp_path / "engineering.yml",
+        """
+rules:
+  - rule_id: distribution-main
+    conditions:
+      - field: network_role
+        operator: equals
+        value: distribution
+    target_asset_group: Main
+    target_asset_type: Distribution
+    explanation: Distribution role supports the selected target type.
+""",
+    )
+    write(
         tmp_path / "project.yml",
         """
 project:
@@ -122,6 +136,7 @@ inputs:
   target_domains: domains.csv
   asset_types: assets.csv
   dirty_areas: dirty.csv
+  engineering_rules: engineering.yml
 """,
     )
 
@@ -131,3 +146,4 @@ inputs:
     assert project.asset_type("waterline", "main", "distribution") is not None
     assert project.asset_types[0].categories == ("Distribution", "Pipe")
     assert project.dirty_areas[0].error_code == "25"
+    assert project.engineering_rules[0].rule_id == "distribution-main"
