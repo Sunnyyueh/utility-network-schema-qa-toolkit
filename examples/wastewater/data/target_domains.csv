@@ -1,0 +1,6 @@
+domain,code,description,field_type
+WastewaterAssetGroup,1,Main,integer
+WastewaterAssetType,10,Gravity Main,integer
+WastewaterAssetType,11,Force Main,integer
+WastewaterAssetType,12,Service Lateral,integer
+

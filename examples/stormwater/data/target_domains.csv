@@ -1,0 +1,10 @@
+domain,code,description,field_type
+StormAssetGroup,1,Conduit,integer
+StormAssetGroup,2,Culvert,integer
+StormAssetGroup,3,Channel,integer
+StormAssetGroup,4,Inlet,integer
+StormAssetType,10,Pipe,integer
+StormAssetType,20,Culvert,integer
+StormAssetType,30,Open Channel,integer
+StormAssetType,40,Grate Inlet,integer
+

@@ -13,6 +13,8 @@ from .common import SourceLocation, StrictModel
 class EngineeringContext(StrictModel):
     network_role: str | None = None
     flow_regime: str | None = None
+    geometry_type: str | None = None
+    structure_type: str | None = None
     material: str | None = None
     lining: str | None = None
     coating: str | None = None

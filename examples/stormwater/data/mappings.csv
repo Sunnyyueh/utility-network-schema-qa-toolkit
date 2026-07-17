@@ -1,0 +1,9 @@
+mapping_id,source_dataset,target_dataset,source_field,target_field,definition_query,purpose,expected_count,selected_count,loaded_count,asset_group,asset_type,rationale,engineering_geometry_type,structure_type,width,height,lifecycle_status
+storm-pipe,LegacyStormLine,StormLine,width,width,structure_type = 'Pipe',Select enclosed stormwater pipes,8,8,8,Conduit,Pipe,Enclosed linear geometry with pipe form supports conduit classification,polyline,Pipe,600,600,Active
+storm-pipe,LegacyStormLine,StormLine,height,height,,,,,,,,,,,,
+storm-culvert,LegacyStormLine,StormLine,width,width,structure_type = 'Culvert',Select roadway crossing culverts,4,4,4,Culvert,Culvert,Roadway crossing form and rectangular dimensions support culvert classification,polyline,Culvert,1200,900,Active
+storm-culvert,LegacyStormLine,StormLine,height,height,,,,,,,,,,,,
+storm-channel,LegacyStormLine,StormLine,width,width,structure_type = 'Open Channel',Select open-channel conveyance assets,6,6,6,Channel,Open Channel,Open conveyance geometry and section dimensions support channel classification,polyline,Open Channel,2400,1200,Active
+storm-channel,LegacyStormLine,StormLine,height,height,,,,,,,,,,,,
+storm-inlet,LegacyStormStructure,StormStructure,id,id,structure_type = 'Inlet',Select point inlet structures,4,4,4,Inlet,Grate Inlet,Point structure form and inlet function support grate-inlet classification,point,Inlet,,,Active
+

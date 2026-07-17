@@ -1,0 +1,9 @@
+dataset,geometry_type,record_count,field,data_type,nullable
+LegacyStormLine,polyline,18,width,double,false
+LegacyStormLine,polyline,18,height,double,false
+LegacyStormLine,polyline,18,structure_type,text,false
+LegacyStormLine,polyline,18,lifecycle_status,text,false
+LegacyStormStructure,point,4,id,integer,false
+LegacyStormStructure,point,4,structure_type,text,false
+LegacyStormStructure,point,4,lifecycle_status,text,false
+

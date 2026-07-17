@@ -1,0 +1,6 @@
+source,target,mapping_workbook,definition_query,mapping_id
+LegacyStormLine,StormLine,data/mappings.csv,structure_type = 'Pipe',storm-pipe
+LegacyStormLine,StormLine,data/mappings.csv,structure_type = 'Culvert',storm-culvert
+LegacyStormLine,StormLine,data/mappings.csv,structure_type = 'Open Channel',storm-channel
+LegacyStormStructure,StormStructure,data/mappings.csv,structure_type = 'Inlet',storm-inlet
+

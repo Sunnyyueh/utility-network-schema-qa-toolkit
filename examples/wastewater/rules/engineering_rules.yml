@@ -1,0 +1,35 @@
+rules:
+  - rule_id: wastewater-gravity-main
+    priority: 10
+    conditions:
+      - field: flow_regime
+        operator: equals
+        value: gravity
+      - field: slope
+        operator: greater_than
+        value: 0
+      - field: upstream_invert
+        operator: greater_than
+        value: 99
+      - field: downstream_invert
+        operator: less_than
+        value: 100
+    target_asset_group: Main
+    target_asset_type: Gravity Main
+    explanation: Gravity regime, positive slope, and decreasing invert support gravity conveyance.
+  - rule_id: wastewater-force-main
+    priority: 20
+    conditions:
+      - field: flow_regime
+        operator: equals
+        value: pressurized
+      - field: network_role
+        operator: contains
+        value: discharge
+      - field: pressure_class
+        operator: exists
+        value: true
+    target_asset_group: Main
+    target_asset_type: Force Main
+    explanation: Pressurized pump-discharge operation with a pressure class supports a force main.
+

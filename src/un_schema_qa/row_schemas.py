@@ -39,6 +39,12 @@ MAPPING_COLUMNS = {
     "enabled": {"enabled", "is_enabled"},
     "network_role": {"network_role", "facility_function"},
     "flow_regime": {"flow_regime", "operating_mode"},
+    "geometry_type": {
+        "engineering_geometry_type",
+        "asset_geometry_type",
+        "geometry_type",
+    },
+    "structure_type": {"structure_type", "structure_form"},
     "material": {"material"},
     "lining": {"lining"},
     "coating": {"coating"},

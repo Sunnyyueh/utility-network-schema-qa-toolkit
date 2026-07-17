@@ -1,0 +1,8 @@
+dataset,geometry_type,field,data_type,nullable,required,domain,asset_group_field,asset_type_field
+WastewaterLine,polyline,diameter,double,false,true,,assetgroup,assettype
+WastewaterLine,polyline,slope,double,true,false,,assetgroup,assettype
+WastewaterLine,polyline,upstream_invert,double,true,false,,assetgroup,assettype
+WastewaterLine,polyline,downstream_invert,double,true,false,,assetgroup,assettype
+WastewaterLine,polyline,assetgroup,integer,false,false,WastewaterAssetGroup,assetgroup,assettype
+WastewaterLine,polyline,assettype,integer,false,false,WastewaterAssetType,assetgroup,assettype
+

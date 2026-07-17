@@ -1,0 +1,4 @@
+rule_type,from_dataset,from_asset_group,from_asset_type,to_dataset,to_asset_group,to_asset_type
+connectivity,StormLine,Conduit,Pipe,StormStructure,Inlet,Grate Inlet
+connectivity,StormLine,Culvert,Culvert,StormLine,Channel,Open Channel
+

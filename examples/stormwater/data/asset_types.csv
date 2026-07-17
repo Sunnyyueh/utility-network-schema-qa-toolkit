@@ -1,0 +1,6 @@
+dataset,asset_group,asset_type,asset_group_code,asset_type_code,categories
+StormLine,Conduit,Pipe,1,10,Pipe;Enclosed
+StormLine,Culvert,Culvert,2,20,Culvert;Crossing
+StormLine,Channel,Open Channel,3,30,Channel;Open
+StormStructure,Inlet,Grate Inlet,4,40,Inlet;Structure
+

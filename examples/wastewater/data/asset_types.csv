@@ -1,0 +1,6 @@
+dataset,asset_group,asset_type,asset_group_code,asset_type_code,categories,terminals
+WastewaterLine,Main,Gravity Main,1,10,Gravity;Pipe,
+WastewaterLine,Main,Force Main,1,11,Pressurized;Pipe,
+WastewaterLine,Main,Service Lateral,1,12,Service;Pipe,
+WastewaterDevice,Pump,Lift Station Pump,,,Pump,Discharge
+

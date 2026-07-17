@@ -1,0 +1,9 @@
+dataset,geometry_type,field,data_type,nullable,required,domain,asset_group_field,asset_type_field
+StormLine,polyline,width,double,false,true,,assetgroup,assettype
+StormLine,polyline,height,double,false,true,,assetgroup,assettype
+StormLine,polyline,assetgroup,integer,false,false,StormAssetGroup,assetgroup,assettype
+StormLine,polyline,assettype,integer,false,false,StormAssetType,assetgroup,assettype
+StormStructure,point,id,integer,false,true,,assetgroup,assettype
+StormStructure,point,assetgroup,integer,false,false,StormAssetGroup,assetgroup,assettype
+StormStructure,point,assettype,integer,false,false,StormAssetType,assetgroup,assettype
+

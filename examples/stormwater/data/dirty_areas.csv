@@ -1,0 +1,5 @@
+dataset,error_code,global_id,message,severity,remediation_category
+StormLine,100,{SYNTHETIC-STORM-001},Review pipe geometry,warning,geometry-review
+StormLine,100,{SYNTHETIC-STORM-002},Review culvert geometry,warning,geometry-review
+StormStructure,200,{SYNTHETIC-STORM-003},Review inlet connectivity,error,connectivity-review
+

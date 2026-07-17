@@ -1,0 +1,50 @@
+rules:
+  - rule_id: stormwater-pipe
+    priority: 10
+    conditions:
+      - field: geometry_type
+        operator: equals
+        value: polyline
+      - field: structure_type
+        operator: equals
+        value: Pipe
+    target_asset_group: Conduit
+    target_asset_type: Pipe
+    explanation: Enclosed polyline pipe form supports the conduit/pipe classification.
+  - rule_id: stormwater-culvert
+    priority: 20
+    conditions:
+      - field: structure_type
+        operator: equals
+        value: Culvert
+      - field: width
+        operator: greater_or_equal
+        value: 1000
+    target_asset_group: Culvert
+    target_asset_type: Culvert
+    explanation: Culvert form and crossing-scale width support the culvert classification.
+  - rule_id: stormwater-open-channel
+    priority: 30
+    conditions:
+      - field: structure_type
+        operator: equals
+        value: Open Channel
+      - field: width
+        operator: greater_than
+        value: 0
+    target_asset_group: Channel
+    target_asset_type: Open Channel
+    explanation: Open-channel form and positive section width support channel classification.
+  - rule_id: stormwater-inlet
+    priority: 40
+    conditions:
+      - field: geometry_type
+        operator: equals
+        value: point
+      - field: structure_type
+        operator: equals
+        value: Inlet
+    target_asset_group: Inlet
+    target_asset_type: Grate Inlet
+    explanation: Point inlet structure form supports the grate-inlet classification.
+

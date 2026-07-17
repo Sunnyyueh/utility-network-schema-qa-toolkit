@@ -1,0 +1,3 @@
+name,dataset,rule_type,triggering_events,required_fields,expression
+Positive dimensions,StormLine,constraint,insert;update,width;height,return $feature.width > 0
+

@@ -1,0 +1,5 @@
+source,target,mapping_workbook,definition_query,mapping_id
+LegacySewerLine,WastewaterLine,data/mappings.csv,flow_regime = 'Gravity',ww-gravity
+LegacySewerLine,WastewaterLine,data/mappings.csv,flow_regime = 'Pressurized',ww-force
+LegacySewerLine,WastewaterLine,data/mappings.csv,flow_regime = 'Intermittent',ww-service
+

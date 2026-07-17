@@ -287,6 +287,8 @@ def _engineering_context(
     string_fields = (
         "network_role",
         "flow_regime",
+        "geometry_type",
+        "structure_type",
         "material",
         "lining",
         "coating",

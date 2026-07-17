@@ -1,0 +1,8 @@
+dataset,geometry_type,record_count,field,data_type,nullable
+LegacySewerLine,polyline,15,diameter,double,false
+LegacySewerLine,polyline,15,flow_regime,text,false
+LegacySewerLine,polyline,15,slope,double,true
+LegacySewerLine,polyline,15,upstream_invert,double,true
+LegacySewerLine,polyline,15,downstream_invert,double,true
+LegacySewerLine,polyline,15,network_role,text,false
+

@@ -1,0 +1,8 @@
+mapping_id,source_dataset,target_dataset,source_field,target_field,definition_query,purpose,expected_count,selected_count,loaded_count,asset_group,asset_type,rationale,network_role,flow_regime,slope,upstream_invert,downstream_invert,pressure_class,lifecycle_status
+ww-gravity,LegacySewerLine,WastewaterLine,diameter,diameter,flow_regime = 'Gravity',Select gravity wastewater mains,8,8,8,Main,Gravity Main,Gravity regime with positive slope and decreasing invert supports this classification,Collection,gravity,0.01,100.0,99.0,,Active
+ww-gravity,LegacySewerLine,WastewaterLine,slope,slope,,,,,,,,,,,,,
+ww-gravity,LegacySewerLine,WastewaterLine,upstream_invert,upstream_invert,,,,,,,,,,,,,
+ww-gravity,LegacySewerLine,WastewaterLine,downstream_invert,downstream_invert,,,,,,,,,,,,,
+ww-force,LegacySewerLine,WastewaterLine,diameter,diameter,flow_regime = 'Pressurized',Select pressurized pump-discharge mains,4,4,4,Main,Force Main,Pressurized pump-discharge service supports a force-main classification,Pump Discharge,pressurized,,,,Class 150,Active
+ww-service,LegacySewerLine,WastewaterLine,diameter,diameter,flow_regime = 'Intermittent',Retain intermittent service laterals for engineering review,3,3,3,Main,Service Lateral,Service function is retained pending engineering review,Service,intermittent,,,,,Active
+
