@@ -10,8 +10,8 @@ from .base import ValidationContext, finding
 
 
 class DirtyAreaValidator:
-    name = "dirty_areas"
-    required_inputs = ("dirty_areas",)
+    name: str = "dirty_areas"
+    required_inputs: tuple[str, ...] = ("dirty_areas",)
 
     def validate(self, context: ValidationContext) -> list[Finding]:
         findings: list[Finding] = []

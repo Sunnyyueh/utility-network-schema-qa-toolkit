@@ -8,8 +8,12 @@ from .base import ValidationContext, finding, types_compatible
 
 
 class MappingValidator:
-    name = "mapping"
-    required_inputs = ("mappings", "source_datasets", "target_datasets")
+    name: str = "mapping"
+    required_inputs: tuple[str, ...] = (
+        "mappings",
+        "source_datasets",
+        "target_datasets",
+    )
 
     def validate(self, context: ValidationContext) -> list[Finding]:
         findings: list[Finding] = []

@@ -10,8 +10,8 @@ from .base import ValidationContext, finding
 
 
 class DataReferenceValidator:
-    name = "data_reference"
-    required_inputs = ("data_reference",)
+    name: str = "data_reference"
+    required_inputs: tuple[str, ...] = ("data_reference",)
 
     def validate(self, context: ValidationContext) -> list[Finding]:
         findings: list[Finding] = []

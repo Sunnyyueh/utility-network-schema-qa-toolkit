@@ -12,8 +12,8 @@ from .base import ValidationContext, finding
 
 
 class FilterValidator:
-    name = "filters"
-    required_inputs = ("mappings", "source_datasets")
+    name: str = "filters"
+    required_inputs: tuple[str, ...] = ("mappings", "source_datasets")
 
     def validate(self, context: ValidationContext) -> list[Finding]:
         findings: list[Finding] = []

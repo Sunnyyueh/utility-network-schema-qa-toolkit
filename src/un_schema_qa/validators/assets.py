@@ -9,8 +9,8 @@ from .base import ValidationContext, finding
 
 
 class AssetClassificationValidator:
-    name = "asset_classification"
-    required_inputs = ("mappings", "asset_types")
+    name: str = "asset_classification"
+    required_inputs: tuple[str, ...] = ("mappings", "asset_types")
 
     def validate(self, context: ValidationContext) -> list[Finding]:
         findings: list[Finding] = []

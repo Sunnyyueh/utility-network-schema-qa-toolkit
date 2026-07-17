@@ -11,8 +11,8 @@ _TRIGGERS = {"insert", "update", "delete"}
 
 
 class AttributeRuleValidator:
-    name = "attribute_rules"
-    required_inputs = ("attribute_rules", "target_datasets")
+    name: str = "attribute_rules"
+    required_inputs: tuple[str, ...] = ("attribute_rules", "target_datasets")
 
     def validate(self, context: ValidationContext) -> list[Finding]:
         findings: list[Finding] = []

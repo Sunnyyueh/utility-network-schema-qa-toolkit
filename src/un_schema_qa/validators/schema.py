@@ -27,8 +27,8 @@ _SUPPORTED_TYPES = {
 
 
 class SchemaValidator:
-    name = "schema"
-    required_inputs = ("source_datasets", "target_datasets")
+    name: str = "schema"
+    required_inputs: tuple[str, ...] = ("source_datasets", "target_datasets")
 
     def validate(self, context: ValidationContext) -> list[Finding]:
         findings: list[Finding] = []

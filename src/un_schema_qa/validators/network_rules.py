@@ -10,8 +10,8 @@ _RULE_TYPES = {"connectivity", "containment", "structural_attachment"}
 
 
 class NetworkRuleValidator:
-    name = "network_rules"
-    required_inputs = ("network_rules", "asset_types")
+    name: str = "network_rules"
+    required_inputs: tuple[str, ...] = ("network_rules", "asset_types")
 
     def validate(self, context: ValidationContext) -> list[Finding]:
         findings: list[Finding] = []

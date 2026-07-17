@@ -8,8 +8,8 @@ from .base import ValidationContext, finding
 
 
 class DomainValidator:
-    name = "domains"
-    required_inputs = ("source_datasets", "target_datasets")
+    name: str = "domains"
+    required_inputs: tuple[str, ...] = ("source_datasets", "target_datasets")
 
     def validate(self, context: ValidationContext) -> list[Finding]:
         findings: list[Finding] = []
