@@ -22,4 +22,8 @@ def read_rows(path: Path | str, *, sheet: str | None = None) -> TabularRows:
         if sheet is not None:
             raise InputFormatError("sheet selection is only supported for Excel workbooks")
         return read_structured_rows(resolved)
+    if suffix in {".xlsx", ".xlsm"}:
+        from .excel import read_xlsx_rows
+
+        return read_xlsx_rows(resolved, sheet=sheet)
     raise InputFormatError(f"unsupported input format {suffix or '<none>'!r}: {resolved}")
