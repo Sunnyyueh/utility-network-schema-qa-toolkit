@@ -1,0 +1,37 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/utility-network-schema-qa-toolkit
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install build tools
+        run: python -m pip install --upgrade pip build twine
+      - name: Build distributions
+        run: python -m build
+      - name: Check package metadata
+        run: twine check dist/*
+      - name: Preserve release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-distributions
+          path: dist/
+      - name: Publish through trusted publishing
+        uses: pypa/gh-action-pypi-publish@release/v1
+

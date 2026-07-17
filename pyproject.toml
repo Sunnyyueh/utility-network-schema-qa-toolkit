@@ -8,7 +8,8 @@ version = "1.0.0"
 description = "License-free validation for Utility Network schemas, mappings, rules, and migration QA artifacts"
 readme = "README.md"
 requires-python = ">=3.10"
-license = { file = "LICENSE" }
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [{ name = "Sunny Yueh" }]
 keywords = ["arcgis", "gis", "utility-network", "data-migration", "quality-assurance"]
 classifiers = [
@@ -53,6 +54,23 @@ Issues = "https://github.com/Sunnyyueh/utility-network-schema-qa-toolkit/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/un_schema_qa"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/src",
+  "/tests",
+  "/examples",
+  "/schemas",
+  "/docs",
+  "/.github",
+  "/README.md",
+  "/CHANGELOG.md",
+  "/CONTRIBUTING.md",
+  "/CODE_OF_CONDUCT.md",
+  "/SECURITY.md",
+  "/LICENSE",
+  "/pyproject.toml",
+]
 
 [tool.pytest.ini_options]
 addopts = "-ra --strict-config --strict-markers"
