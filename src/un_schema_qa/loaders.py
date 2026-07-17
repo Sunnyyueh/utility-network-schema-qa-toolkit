@@ -201,6 +201,7 @@ def _domains(table: TabularRows) -> tuple[DomainSpec, ...]:
             DomainValue(
                 code=_required(row, columns, "code"),
                 description=_required(row, columns, "description"),
+                target_code=_text(_value(row, columns, "target_code")),
                 location=location,
             )
         )

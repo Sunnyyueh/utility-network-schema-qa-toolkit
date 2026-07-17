@@ -51,6 +51,7 @@ class DatasetSchema(StrictModel):
 class DomainValue(StrictModel):
     code: str
     description: str
+    target_code: str | None = None
     location: SourceLocation | None = None
 
 

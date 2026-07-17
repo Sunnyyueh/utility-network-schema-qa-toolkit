@@ -60,6 +60,7 @@ DOMAIN_COLUMNS = {
     "domain": {"domain", "domain_name", "name"},
     "code": {"code", "coded_value", "value"},
     "description": {"description", "label", "name"},
+    "target_code": {"target_code", "mapped_code", "crosswalk_value"},
     "field_type": {"field_type", "data_type"},
 }
 
