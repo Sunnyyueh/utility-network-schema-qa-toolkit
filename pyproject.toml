@@ -40,6 +40,7 @@ dev = [
   "pytest-cov>=5,<8",
   "ruff>=0.5,<1",
   "twine>=5,<7",
+  "types-PyYAML>=6.0.12,<7",
 ]
 
 [project.scripts]
@@ -75,4 +76,3 @@ select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
 python_version = "3.10"
 strict = true
 packages = ["un_schema_qa"]
-
