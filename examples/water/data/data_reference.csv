@@ -1,0 +1,4 @@
+source,target,mapping_workbook,enabled,maintain_attachments,preserve_global_ids,definition_query,mapping_id
+LegacyWaterLine,WaterLine,data/mappings.csv,true,true,false,network_role = 'Transmission' AND lifecycle_status = 'Active',water-transmission
+LegacyWaterLine,WaterLine,data/mappings.csv,true,true,false,network_role = 'Distribution' AND lifecycle_status = 'Active',water-distribution
+

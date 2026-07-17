@@ -15,7 +15,7 @@ class DataReferenceValidator:
 
     def validate(self, context: ValidationContext) -> list[Finding]:
         findings: list[Finding] = []
-        seen: set[tuple[str, str, str]] = set()
+        seen: set[tuple[str, ...]] = set()
         for entry in context.project.data_reference:
             findings.extend(self._entry(context, entry))
             if entry.enabled:
@@ -23,6 +23,8 @@ class DataReferenceValidator:
                     entry.source.casefold(),
                     entry.target.casefold(),
                     entry.mapping_workbook.casefold(),
+                    (entry.mapping_id or "").casefold(),
+                    _normalized_query(entry.definition_query),
                 )
                 if key in seen:
                     findings.append(

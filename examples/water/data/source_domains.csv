@@ -1,0 +1,4 @@
+domain,code,description,target_code,field_type
+LegacyMaterial,DI,Ductile Iron,DI,text
+LegacyMaterial,PVC,Polyvinyl Chloride,PVC,text
+

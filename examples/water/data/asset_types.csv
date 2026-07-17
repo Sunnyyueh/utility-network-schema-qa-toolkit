@@ -1,0 +1,4 @@
+dataset,asset_group,asset_type,asset_group_code,asset_type_code,categories
+WaterLine,Main,Transmission Main,1,10,Transmission;Pipe
+WaterLine,Main,Distribution Main,1,11,Distribution;Pipe
+

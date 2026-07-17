@@ -1,0 +1,6 @@
+mapping_id,source_dataset,target_dataset,source_field,target_field,definition_query,purpose,expected_count,selected_count,loaded_count,asset_group,asset_type,rationale,network_role,flow_regime,nominal_diameter,lifecycle_status
+water-transmission,LegacyWaterLine,WaterLine,material,material,network_role = 'Transmission' AND lifecycle_status = 'Active',Select active transmission mains for the transmission asset type,4,4,4,Main,Transmission Main,Transmission function and large diameter support this classification,Transmission,pressurized,750,Active
+water-transmission,LegacyWaterLine,WaterLine,diameter,diameter,,,,,,,,,,,
+water-distribution,LegacyWaterLine,WaterLine,material,material,network_role = 'Distribution' AND lifecycle_status = 'Active',Select active distribution mains for the distribution asset type,6,6,6,Main,Distribution Main,Distribution function and service role support this classification,Distribution,pressurized,250,Active
+water-distribution,LegacyWaterLine,WaterLine,diameter,diameter,,,,,,,,,,,
+

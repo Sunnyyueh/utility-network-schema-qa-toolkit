@@ -1,0 +1,7 @@
+domain,code,description,field_type
+TargetMaterial,DI,Ductile Iron,text
+TargetMaterial,PVC,Polyvinyl Chloride,text
+WaterAssetGroup,1,Main,integer
+WaterAssetType,10,Transmission Main,integer
+WaterAssetType,11,Distribution Main,integer
+

@@ -1,0 +1,3 @@
+rule_type,from_dataset,from_asset_group,from_asset_type,to_dataset,to_asset_group,to_asset_type
+connectivity,WaterLine,Main,Transmission Main,WaterLine,Main,Distribution Main
+

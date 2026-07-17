@@ -1,0 +1,31 @@
+project:
+  name: synthetic-water-migration
+  profile: water
+inputs:
+  source_schema: data/source_schema.csv
+  target_schema: data/target_schema.csv
+  mappings: data/mappings.csv
+  source_domains: data/source_domains.csv
+  target_domains: data/target_domains.csv
+  asset_types: data/asset_types.csv
+  data_reference: data/data_reference.csv
+  attribute_rules: data/attribute_rules.csv
+  network_rules: data/network_rules.csv
+  dirty_areas: data/dirty_areas.csv
+  engineering_rules: rules/engineering_rules.yml
+validation:
+  enabled:
+    - schema
+    - mapping
+    - filters
+    - domains
+    - asset_classification
+    - data_reference
+    - attribute_rules
+    - network_rules
+    - dirty_areas
+  fail_on: error
+outputs:
+  directory: reports
+  formats: [json, csv, markdown, html]
+

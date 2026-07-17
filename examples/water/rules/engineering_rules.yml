@@ -1,0 +1,34 @@
+rules:
+  - rule_id: water-transmission-main
+    priority: 10
+    match: all
+    conditions:
+      - field: network_role
+        operator: equals
+        value: Transmission
+      - field: nominal_diameter
+        operator: greater_or_equal
+        value: 600
+      - field: lifecycle_status
+        operator: equals
+        value: Active
+    target_asset_group: Main
+    target_asset_type: Transmission Main
+    explanation: Transmission function and diameter at or above 600 support the transmission-main review.
+  - rule_id: water-distribution-main
+    priority: 20
+    match: all
+    conditions:
+      - field: network_role
+        operator: equals
+        value: Distribution
+      - field: nominal_diameter
+        operator: less_than
+        value: 600
+      - field: lifecycle_status
+        operator: equals
+        value: Active
+    target_asset_group: Main
+    target_asset_type: Distribution Main
+    explanation: Distribution function and diameter below 600 support the distribution-main review.
+

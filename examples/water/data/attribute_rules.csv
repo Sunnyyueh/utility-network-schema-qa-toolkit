@@ -1,0 +1,3 @@
+name,dataset,rule_type,triggering_events,required_fields,domain_dependencies,expression
+Material readiness,WaterLine,validation,insert;update,material,TargetMaterial,return $feature.material != null
+

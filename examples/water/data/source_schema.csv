@@ -1,0 +1,6 @@
+dataset,geometry_type,record_count,field,data_type,nullable,domain
+LegacyWaterLine,polyline,10,material,text,false,LegacyMaterial
+LegacyWaterLine,polyline,10,diameter,double,false,
+LegacyWaterLine,polyline,10,network_role,text,false,
+LegacyWaterLine,polyline,10,lifecycle_status,text,false,
+
