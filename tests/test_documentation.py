@@ -1,0 +1,67 @@
+import re
+from pathlib import Path
+
+from un_schema_qa.config import DEFAULT_CHECKS
+
+ROOT = Path(__file__).parent.parent
+DOCS = ROOT / "docs"
+
+
+def read(name: str) -> str:
+    return (DOCS / name).read_text(encoding="utf-8")
+
+
+def test_required_user_and_technical_guides_exist() -> None:
+    required = {
+        "architecture.md",
+        "configuration.md",
+        "input-formats.md",
+        "validation-rules.md",
+        "finding-codes.md",
+        "python-api.md",
+        "cli.md",
+        "report-schema.md",
+    }
+
+    assert required <= {path.name for path in DOCS.glob("*.md")}
+    assert all(len(read(name).splitlines()) >= 20 for name in required)
+
+
+def test_every_builtin_check_is_documented() -> None:
+    documentation = read("validation-rules.md")
+
+    assert all(f"`{name}`" in documentation for name in DEFAULT_CHECKS)
+
+
+def test_every_finding_code_is_in_catalog() -> None:
+    source = "\n".join(
+        path.read_text(encoding="utf-8")
+        for path in (ROOT / "src" / "un_schema_qa" / "validators").glob("*.py")
+    )
+    prefixes = "SCHEMA|MAP|FILTER|DOMAIN|ASSET|DATAREF|ATTR_RULE|NETWORK_RULE|DIRTY_AREA"
+    codes = set(re.findall(rf'"(({prefixes})_[A-Z0-9_]+)"', source))
+    catalog = read("finding-codes.md")
+
+    assert codes
+    assert all(f"`{code}`" in catalog for code, _ in codes)
+
+
+def test_every_cli_command_and_public_symbol_is_documented() -> None:
+    cli_source = (ROOT / "src" / "un_schema_qa" / "cli.py").read_text(encoding="utf-8")
+    commands = set(re.findall(r'@app\.command\("([a-z-]+)"\)', cli_source))
+    cli_documentation = read("cli.md")
+    api_documentation = read("python-api.md")
+
+    assert commands == {"validate", "inspect-workbook", "init", "list-checks", "version"}
+    assert all(f"`{command}`" in cli_documentation for command in commands)
+    assert all(
+        f"`{symbol}`" in api_documentation
+        for symbol in ("load_project", "validate_project", "write_reports")
+    )
+
+
+def test_report_schema_guide_references_versioned_schema_and_formats() -> None:
+    documentation = read("report-schema.md")
+
+    assert "validation-report-v1.schema.json" in documentation
+    assert all(f"`{name}`" in documentation for name in ("json", "csv", "markdown", "html"))
