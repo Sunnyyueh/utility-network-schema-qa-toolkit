@@ -55,6 +55,7 @@ packages = ["src/un_schema_qa"]
 
 [tool.pytest.ini_options]
 addopts = "-ra --strict-config --strict-markers"
+pythonpath = ["src"]
 testpaths = ["tests"]
 
 [tool.coverage.run]
