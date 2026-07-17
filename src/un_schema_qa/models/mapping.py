@@ -58,6 +58,8 @@ class MappingPair(StrictModel):
     definition_query: str | None = None
     purpose: str | None = None
     expected_count: int | None = Field(default=None, ge=0)
+    selected_count: int | None = Field(default=None, ge=0)
+    loaded_count: int | None = Field(default=None, ge=0)
     field_mappings: tuple[FieldMapping, ...] = ()
     asset_group: str | None = None
     asset_type: str | None = None

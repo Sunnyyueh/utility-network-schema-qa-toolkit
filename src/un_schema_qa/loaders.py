@@ -253,6 +253,8 @@ def _mappings(table: TabularRows) -> tuple[MappingPair, ...]:
                 definition_query=_text(_first(records, columns, "definition_query")),
                 purpose=_text(_first(records, columns, "purpose")),
                 expected_count=parse_int(_first(records, columns, "expected_count")),
+                selected_count=parse_int(_first(records, columns, "selected_count")),
+                loaded_count=parse_int(_first(records, columns, "loaded_count")),
                 field_mappings=tuple(field_mappings),
                 asset_group=_text(_first(records, columns, "asset_group")),
                 asset_type=_text(_first(records, columns, "asset_type")),
