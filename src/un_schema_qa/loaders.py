@@ -242,6 +242,12 @@ def _mappings(table: TabularRows) -> tuple[MappingPair, ...]:
                         expression=_text(_value(row, columns, "expression")),
                         lookup=_text(_value(row, columns, "lookup")),
                         default=_value(row, columns, "default"),
+                        semantic_role=_text(_value(row, columns, "semantic_role")),
+                        source_unit=_text(_value(row, columns, "source_unit")),
+                        target_unit=_text(_value(row, columns, "target_unit")),
+                        source_vertical_datum=_text(_value(row, columns, "source_vertical_datum")),
+                        target_vertical_datum=_text(_value(row, columns, "target_vertical_datum")),
+                        field_rationale=_text(_value(row, columns, "field_rationale")),
                         location=row_location,
                     )
                 )

@@ -83,6 +83,45 @@ inputs:
     assert project.mappings[0].location is not None
 
 
+def test_load_semantic_field_mapping_aliases(tmp_path: Path) -> None:
+    write(
+        tmp_path / "source.csv",
+        "dataset,field,data_type\nLegacyLine,elevation_ft,double\n",
+    )
+    write(
+        tmp_path / "target.csv",
+        "dataset,field,data_type\nWaterLine,elevation,double\n",
+    )
+    write(
+        tmp_path / "mapping.csv",
+        "mapping_id,source_dataset,target_dataset,source_field,target_field,"
+        "QA Role,From Unit,To Unit,Source Datum,Target Datum,Mapping Rationale\n"
+        "elevation,LegacyLine,WaterLine,elevation_ft,elevation,elevation,"
+        "ft,m,NAVD88,NAVD88,Convert feet to metres\n",
+    )
+    write(
+        tmp_path / "project.yml",
+        """
+project:
+  name: semantic-demo
+inputs:
+  source_schema: source.csv
+  target_schema: target.csv
+  mappings: mapping.csv
+""",
+    )
+
+    project = load_project_data(load_config(tmp_path / "project.yml"))
+    field_mapping = project.mappings[0].field_mappings[0]
+
+    assert field_mapping.semantic_role == "elevation"
+    assert field_mapping.source_unit == "ft"
+    assert field_mapping.target_unit == "m"
+    assert field_mapping.source_vertical_datum == "NAVD88"
+    assert field_mapping.target_vertical_datum == "NAVD88"
+    assert field_mapping.field_rationale == "Convert feet to metres"
+
+
 def test_load_optional_domain_asset_and_issue_inventories(tmp_path: Path) -> None:
     write(
         tmp_path / "source.csv",

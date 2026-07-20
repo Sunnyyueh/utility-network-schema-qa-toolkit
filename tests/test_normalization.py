@@ -11,6 +11,7 @@ from un_schema_qa.normalization import (
     parse_list,
     resolve_columns,
 )
+from un_schema_qa.row_schemas import MAPPING_COLUMNS
 
 
 @pytest.mark.parametrize(
@@ -39,6 +40,27 @@ def test_resolve_columns_recognizes_aliases_and_rejects_ambiguity() -> None:
 
     with pytest.raises(InputFormatError, match="multiple columns"):
         resolve_columns(["Definition Query", "SourceDefinitionQuery"], logical)
+
+
+def test_mapping_columns_recognize_semantic_qa_aliases() -> None:
+    assert resolve_columns(
+        [
+            "QA Role",
+            "From Unit",
+            "To Unit",
+            "Source Datum",
+            "Target Datum",
+            "Mapping Rationale",
+        ],
+        MAPPING_COLUMNS,
+    ) == {
+        "semantic_role": "QA Role",
+        "source_unit": "From Unit",
+        "target_unit": "To Unit",
+        "source_vertical_datum": "Source Datum",
+        "target_vertical_datum": "Target Datum",
+        "field_rationale": "Mapping Rationale",
+    }
 
 
 @pytest.mark.parametrize(
