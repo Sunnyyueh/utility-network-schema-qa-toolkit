@@ -104,6 +104,21 @@ def test_field_semantics_normalizes_role_and_requires_rationale() -> None:
     assert "FIELD_SEMANTIC_RATIONALE_MISSING" in semantic_codes(project)
 
 
+def test_field_semantics_skips_disabled_mappings() -> None:
+    project = semantic_project(
+        FieldMapping(
+            source_field="status",
+            target_field="lifecycle_status",
+            semantic_role="lifecycle_status",
+            field_rationale="Crosswalk legacy lifecycle values.",
+        )
+    )
+    disabled = project.mappings[0].model_copy(update={"enabled": False})
+    project = project.model_copy(update={"mappings": (disabled,)})
+
+    assert semantic_codes(project) == set()
+
+
 def lifecycle_project(
     source_domain: str | None,
     target_domain: str | None,

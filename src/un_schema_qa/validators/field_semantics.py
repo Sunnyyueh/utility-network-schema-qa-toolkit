@@ -39,6 +39,8 @@ class FieldSemanticsValidator:
     def validate(self, context: ValidationContext) -> list[Finding]:
         findings: list[Finding] = []
         for mapping in context.project.mappings:
+            if not mapping.enabled:
+                continue
             for field_mapping in mapping.field_mappings:
                 if not field_mapping.semantic_role:
                     continue
