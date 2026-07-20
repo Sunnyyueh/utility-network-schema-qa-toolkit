@@ -115,6 +115,27 @@ def test_v1_readme_and_governance_docs_are_release_ready() -> None:
     assert not any(term in readme.casefold() for term in forbidden)
 
 
+def test_readme_explains_semantic_field_mapping_workflow() -> None:
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+
+    assert all(
+        f"`{name}`" in readme
+        for name in (
+            "semantic_role",
+            "lifecycle_status",
+            "owner",
+            "elevation",
+            "source_vertical_datum",
+            "target_vertical_datum",
+            "field_semantics",
+        )
+    )
+    normalized = readme.casefold()
+    assert "exported metadata" in normalized
+    assert "feature records" in normalized
+    assert "live utility network" in normalized
+
+
 def test_all_local_readme_links_resolve() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     links = re.findall(r"\[[^]]+\]\(([^)]+)\)", readme)

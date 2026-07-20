@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "utility-network-schema-qa-toolkit"
 version = "1.0.0"
-description = "License-free validation for Utility Network schemas, mappings, rules, and migration QA artifacts"
+description = "MIT-licensed validation for Utility Network schemas, mappings, rules, and migration QA artifacts"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"

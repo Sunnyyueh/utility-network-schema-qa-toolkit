@@ -1,6 +1,6 @@
 # Utility Network Schema QA Toolkit
 
-`utility-network-schema-qa-toolkit` V1.0 is an open-source, license-free Python toolkit for validating exported Utility Network schemas, source-to-target mappings, per-mapping Definition Queries, domains, asset classifications, declared rules, Data Reference inventories, dirty-area exports, and migration QA reports.
+`utility-network-schema-qa-toolkit` V1.0 is an open-source, MIT-licensed Python toolkit for validating exported Utility Network schemas, source-to-target mappings, per-mapping Definition Queries, domains, asset classifications, declared rules, Data Reference inventories, dirty-area exports, and migration QA reports.
 
 It works with CSV, TSV, JSON, YAML, XLSX, and XLSM artifacts without ArcPy or a proprietary GIS runtime. It does not connect to or modify a live Utility Network.
 
@@ -10,6 +10,7 @@ It works with CSV, TSV, JSON, YAML, XLSX, and XLSM artifacts without ArcPy or a 
 - Header aliases for common schema, mapping, and Data Reference workbook exports.
 - Safe, non-executing analysis of a documented SQL-style filter subset.
 - Source/target dataset, field, geometry, required-field, type, and transformation QA.
+- Metadata-level `lifecycle_status`, `owner`, and `elevation` field mapping QA.
 - Domain, coded-value, explicit crosswalk, asset group, and asset type QA.
 - Explainable YAML civil-engineering classification rules with deterministic priority.
 - Data Reference, attribute-rule dependency, network-rule, terminal, and dirty-area checks.
@@ -85,7 +86,9 @@ Exit codes are `0` for pass (and warnings by default), `1` for warnings with `--
 
 ## Project manifest
 
-Only source schema, target schema, and mappings are required. Other inventories activate additional checks.
+Only source schema, target schema, and mappings are required. Other inventories activate additional checks. These files should contain real exported metadata from the source system and intended target Utility Network: dataset and field definitions, domains, mapping decisions, rules, and recorded counts. They do not need feature records, geometry, credentials, or a live Utility Network connection.
+
+This separation makes reviews repeatable and allows schema QA before loading. It does not make placeholder metadata equivalent to a production review: results are only as complete as the exported schemas, domains, mappings, and counts supplied to the manifest.
 
 ```yaml
 project:
@@ -105,7 +108,7 @@ inputs:
   dirty_areas: data/dirty_areas.csv
   engineering_rules: rules/engineering_rules.yml
 validation:
-  enabled: [schema, mapping, filters, domains, asset_classification]
+  enabled: [schema, mapping, field_semantics, filters, domains, asset_classification]
   fail_on: error
   severity_overrides:
     FILTER_EXPECTED_COUNT_MISSING: info
@@ -115,6 +118,34 @@ outputs:
 ```
 
 Relative paths resolve from `project.yml`. Unknown manifest keys, checks, profiles, severities, and formats fail early.
+
+## Field-level Utility Network mapping QA
+
+Add `semantic_role` and supporting metadata to individual source-to-target field rows. Roles are explicit; the toolkit does not infer them from field names.
+
+Enable `field_semantics` in the manifest. Elevation rows also declare `source_vertical_datum` and `target_vertical_datum`, along with source/target units.
+
+```csv
+mapping_id,source_dataset,target_dataset,source_field,target_field,expression,semantic_role,source_unit,target_unit,source_vertical_datum,target_vertical_datum,field_rationale
+water-main,LegacyWaterLine,WaterLine,status,lifecycle_status,,lifecycle_status,,,,,Crosswalk legacy values to the target lifecycle domain
+water-main,LegacyWaterLine,WaterLine,owner_name,owner,UPPER(owner_name),owner,,,,,Normalize owner names for stewardship review
+water-main,LegacyWaterLine,WaterLine,elevation_ft,elevation,elevation_ft * 0.3048006096,elevation,us_survey_ft,m,NAVD88,NAVD88,Convert surveyed elevations to target metres
+```
+
+| `semantic_role` | Metadata QA performed |
+| --- | --- |
+| `lifecycle_status` | Requires domains on both fields so source codes and explicit `target_code` crosswalks can be reviewed. |
+| `owner` | Requires text fields, checks known source/target lengths for truncation risk, and flags one-sided domain use. |
+| `elevation` | Requires numeric fields, supported source/target units, vertical datum metadata, and an expression when units or datums differ. |
+
+Run the complete manifest or isolate this check:
+
+```bash
+un-schema-qa validate project.yml
+un-schema-qa validate project.yml --check field_semantics
+```
+
+The validator compares exported schema and mapping metadata only. It does not inspect lifecycle, owner, or elevation values in feature records; execute expressions; verify conversion constants or coordinate operations; or automatically score and select an asset group/type. Findings identify metadata gaps and review risks, while target domains, Utility Network rules, and qualified engineering review remain authoritative.
 
 ## Per-mapping Definition Queries and filters
 
