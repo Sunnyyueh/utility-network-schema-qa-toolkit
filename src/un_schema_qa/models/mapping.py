@@ -49,6 +49,12 @@ class FieldMapping(StrictModel):
     expression: str | None = None
     lookup: str | None = None
     default: Any = None
+    semantic_role: str | None = None
+    source_unit: str | None = None
+    target_unit: str | None = None
+    source_vertical_datum: str | None = None
+    target_vertical_datum: str | None = None
+    field_rationale: str | None = None
     location: SourceLocation | None = None
     extra: dict[str, Any] = Field(default_factory=dict)
 
