@@ -309,3 +309,47 @@ def test_elevation_requires_expression_for_unit_conversion() -> None:
         )
         == set()
     )
+
+
+@pytest.mark.parametrize(
+    ("source_datum", "target_datum", "expected_missing"),
+    [
+        (None, "NAVD88", ["source_vertical_datum"]),
+        ("NAVD88", None, ["target_vertical_datum"]),
+        (None, None, ["source_vertical_datum", "target_vertical_datum"]),
+    ],
+)
+def test_elevation_requires_both_vertical_datums(
+    source_datum: str | None,
+    target_datum: str | None,
+    expected_missing: list[str],
+) -> None:
+    findings = semantic_findings(
+        elevation_project(source_datum=source_datum, target_datum=target_datum)
+    )
+    missing = [item for item in findings if item.code == "FIELD_ELEVATION_DATUM_MISSING"]
+
+    assert len(missing) == 1
+    assert missing[0].details["missing"] == expected_missing
+
+
+def test_elevation_compares_vertical_datums_case_insensitively() -> None:
+    assert (
+        semantic_codes(elevation_project(source_datum=" NAVD88 ", target_datum="navd88")) == set()
+    )
+
+
+def test_elevation_requires_expression_for_vertical_datum_transform() -> None:
+    assert "FIELD_ELEVATION_DATUM_TRANSFORM_MISSING" in semantic_codes(
+        elevation_project(source_datum="NGVD29", target_datum="NAVD88")
+    )
+    assert (
+        semantic_codes(
+            elevation_project(
+                source_datum="NGVD29",
+                target_datum="NAVD88",
+                expression="vertical_transform(elevation_source)",
+            )
+        )
+        == set()
+    )

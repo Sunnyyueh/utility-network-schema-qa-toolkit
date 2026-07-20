@@ -324,4 +324,54 @@ class FieldSemanticsValidator:
                     },
                 )
             )
+
+        datums = {
+            "source": field_mapping.source_vertical_datum,
+            "target": field_mapping.target_vertical_datum,
+        }
+        missing_datums = [
+            f"{side}_vertical_datum"
+            for side, datum in datums.items()
+            if not datum or not datum.strip()
+        ]
+        if missing_datums:
+            findings.append(
+                finding(
+                    "FIELD_ELEVATION_DATUM_MISSING",
+                    Severity.ERROR,
+                    self.name,
+                    "Elevation mapping does not declare both source and target vertical datums.",
+                    "Set source_vertical_datum and target_vertical_datum on the field mapping.",
+                    dataset=mapping.target_dataset,
+                    field=target_field.name,
+                    mapping_id=mapping.mapping_id,
+                    location=field_mapping.location,
+                    details={"missing": missing_datums},
+                )
+            )
+        elif (
+            datums["source"] is not None
+            and datums["target"] is not None
+            and datums["source"].strip().casefold() != datums["target"].strip().casefold()
+            and not field_mapping.expression
+        ):
+            findings.append(
+                finding(
+                    "FIELD_ELEVATION_DATUM_TRANSFORM_MISSING",
+                    Severity.ERROR,
+                    self.name,
+                    "Elevation source and target vertical datums differ without a "
+                    "transformation expression.",
+                    "Add an expression that performs or references the required vertical "
+                    "datum transformation.",
+                    dataset=mapping.target_dataset,
+                    field=target_field.name,
+                    mapping_id=mapping.mapping_id,
+                    location=field_mapping.location,
+                    details={
+                        "source_vertical_datum": datums["source"],
+                        "target_vertical_datum": datums["target"],
+                    },
+                )
+            )
         return findings
