@@ -114,6 +114,7 @@ def test_v1_readme_and_governance_docs_are_release_ready() -> None:
         "CONTRIBUTING.md",
         "CODE_OF_CONDUCT.md",
         "SECURITY.md",
+        "docs/tutorials/field-semantics.md",
         "docs/tutorials/water.md",
         "docs/tutorials/wastewater.md",
         "docs/tutorials/stormwater.md",

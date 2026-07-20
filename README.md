@@ -242,6 +242,7 @@ All example names, counts, identifiers, and infrastructure records are synthetic
 - [Python API](docs/python-api.md)
 - [CLI](docs/cli.md)
 - [Report schema](docs/report-schema.md)
+- [Field-semantic mapping tutorial](docs/tutorials/field-semantics.md)
 - [Water tutorial](docs/tutorials/water.md)
 - [Wastewater tutorial](docs/tutorials/wastewater.md)
 - [Stormwater tutorial](docs/tutorials/stormwater.md)
