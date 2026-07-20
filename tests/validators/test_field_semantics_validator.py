@@ -310,7 +310,9 @@ def test_elevation_treats_blank_unit_as_missing() -> None:
     [
         ("metres", "meter"),
         ("foot", "feet"),
+        ("international feet", "ft"),
         ("US Survey Foot", "usft"),
+        ("US Survey Feet", "survey feet"),
     ],
 )
 def test_elevation_normalizes_common_unit_aliases(

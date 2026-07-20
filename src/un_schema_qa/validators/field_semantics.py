@@ -19,10 +19,13 @@ _UNIT_ALIASES = {
     "foot": "ft",
     "feet": "ft",
     "international_foot": "ft",
+    "international_feet": "ft",
     "us_survey_ft": "us_survey_ft",
     "us_survey_foot": "us_survey_ft",
+    "us_survey_feet": "us_survey_ft",
     "usft": "us_survey_ft",
     "survey_foot": "us_survey_ft",
+    "survey_feet": "us_survey_ft",
 }
 
 
