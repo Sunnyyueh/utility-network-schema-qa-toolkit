@@ -8,6 +8,22 @@ from un_schema_qa.normalization import normalize_header
 from .base import ValidationContext, finding
 
 _SUPPORTED_ROLES = {"lifecycle_status", "owner", "elevation"}
+_NUMERIC_TYPES = {"small_integer", "integer", "float", "double"}
+_UNIT_ALIASES = {
+    "m": "m",
+    "meter": "m",
+    "meters": "m",
+    "metre": "m",
+    "metres": "m",
+    "ft": "ft",
+    "foot": "ft",
+    "feet": "ft",
+    "international_foot": "ft",
+    "us_survey_ft": "us_survey_ft",
+    "us_survey_foot": "us_survey_ft",
+    "usft": "us_survey_ft",
+    "survey_foot": "us_survey_ft",
+}
 
 
 class FieldSemanticsValidator:
@@ -85,6 +101,8 @@ class FieldSemanticsValidator:
             )
         elif role == "owner":
             findings.extend(self._owner(mapping, field_mapping, source_field, target_field))
+        elif role == "elevation":
+            findings.extend(self._elevation(mapping, field_mapping, source_field, target_field))
         return findings
 
     def _lifecycle_status(
@@ -201,6 +219,108 @@ class FieldSemanticsValidator:
                     details={
                         "source_domain": source_field.domain,
                         "target_domain": target_field.domain,
+                    },
+                )
+            )
+        return findings
+
+    def _elevation(
+        self,
+        mapping: MappingPair,
+        field_mapping: FieldMapping,
+        source_field: FieldSchema,
+        target_field: FieldSchema,
+    ) -> list[Finding]:
+        findings: list[Finding] = []
+        for side, dataset, schema_field in (
+            ("source", mapping.source_dataset, source_field),
+            ("target", mapping.target_dataset, target_field),
+        ):
+            if schema_field.data_type.casefold() not in _NUMERIC_TYPES:
+                findings.append(
+                    finding(
+                        "FIELD_ELEVATION_TYPE_INVALID",
+                        Severity.ERROR,
+                        self.name,
+                        f"Elevation {side} field {schema_field.name!r} uses non-numeric "
+                        f"type {schema_field.data_type!r}.",
+                        "Use small_integer, integer, float, or double elevation fields.",
+                        dataset=dataset,
+                        field=schema_field.name,
+                        mapping_id=mapping.mapping_id,
+                        location=field_mapping.location,
+                        details={
+                            "side": side,
+                            "data_type": schema_field.data_type,
+                        },
+                    )
+                )
+
+        units = {
+            "source": field_mapping.source_unit,
+            "target": field_mapping.target_unit,
+        }
+        missing = [f"{side}_unit" for side, unit in units.items() if not unit]
+        if missing:
+            findings.append(
+                finding(
+                    "FIELD_ELEVATION_UNIT_MISSING",
+                    Severity.ERROR,
+                    self.name,
+                    "Elevation mapping does not declare both source and target units.",
+                    "Set source_unit and target_unit on the field mapping.",
+                    dataset=mapping.target_dataset,
+                    field=target_field.name,
+                    mapping_id=mapping.mapping_id,
+                    location=field_mapping.location,
+                    details={"missing": missing},
+                )
+            )
+
+        canonical_units: dict[str, str] = {}
+        for side, unit in units.items():
+            if not unit:
+                continue
+            canonical = _UNIT_ALIASES.get(normalize_header(unit))
+            if canonical is None:
+                findings.append(
+                    finding(
+                        "FIELD_ELEVATION_UNIT_UNKNOWN",
+                        Severity.ERROR,
+                        self.name,
+                        f"Elevation {side} unit {unit!r} is not supported.",
+                        "Use m, ft, us_survey_ft, or a documented common alias.",
+                        dataset=(
+                            mapping.source_dataset if side == "source" else mapping.target_dataset
+                        ),
+                        field=source_field.name if side == "source" else target_field.name,
+                        mapping_id=mapping.mapping_id,
+                        location=field_mapping.location,
+                        details={"side": side, "unit": unit},
+                    )
+                )
+                continue
+            canonical_units[side] = canonical
+
+        if (
+            canonical_units.keys() == {"source", "target"}
+            and canonical_units["source"] != canonical_units["target"]
+            and not field_mapping.expression
+        ):
+            findings.append(
+                finding(
+                    "FIELD_ELEVATION_CONVERSION_MISSING",
+                    Severity.ERROR,
+                    self.name,
+                    "Elevation source and target units differ without a conversion expression.",
+                    "Add an expression that converts the source unit to the target unit.",
+                    dataset=mapping.target_dataset,
+                    field=target_field.name,
+                    mapping_id=mapping.mapping_id,
+                    location=field_mapping.location,
+                    details={
+                        "source_unit": canonical_units["source"],
+                        "target_unit": canonical_units["target"],
                     },
                 )
             )

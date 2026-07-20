@@ -1,3 +1,5 @@
+import pytest
+
 from un_schema_qa.engine import build_default_registry
 from un_schema_qa.models import (
     DatasetSchema,
@@ -217,3 +219,93 @@ def test_owner_requires_domains_on_both_sides_when_either_side_uses_one() -> Non
 
 def test_owner_accepts_documented_expression_normalization() -> None:
     assert semantic_codes(owner_project(expression="UPPER(owner_name)")) == set()
+
+
+def elevation_project(
+    *,
+    source_type: str = "double",
+    target_type: str = "double",
+    source_unit: str | None = "m",
+    target_unit: str | None = "m",
+    source_datum: str | None = "NAVD88",
+    target_datum: str | None = "NAVD88",
+    expression: str | None = None,
+) -> ProjectData:
+    return project_with_fields(
+        source_fields=(FieldSchema(name="elevation_source", data_type=source_type),),
+        target_fields=(FieldSchema(name="elevation", data_type=target_type),),
+        field_mappings=(
+            FieldMapping(
+                source_field="elevation_source",
+                target_field="elevation",
+                semantic_role="elevation",
+                source_unit=source_unit,
+                target_unit=target_unit,
+                source_vertical_datum=source_datum,
+                target_vertical_datum=target_datum,
+                expression=expression,
+                field_rationale="Convert the surveyed elevation to the target reference.",
+            ),
+        ),
+    )
+
+
+def test_elevation_requires_numeric_source_and_target_fields() -> None:
+    findings = semantic_findings(elevation_project(source_type="text", target_type="date"))
+    invalid = [item for item in findings if item.code == "FIELD_ELEVATION_TYPE_INVALID"]
+
+    assert len(invalid) == 2
+    assert {item.details["side"] for item in invalid} == {"source", "target"}
+
+
+def test_elevation_requires_both_units() -> None:
+    findings = semantic_findings(elevation_project(source_unit=None, target_unit=None))
+    missing = [item for item in findings if item.code == "FIELD_ELEVATION_UNIT_MISSING"]
+
+    assert len(missing) == 1
+    assert missing[0].details["missing"] == ["source_unit", "target_unit"]
+
+
+@pytest.mark.parametrize(
+    ("source_unit", "target_unit"),
+    [
+        ("metres", "meter"),
+        ("foot", "feet"),
+        ("US Survey Foot", "usft"),
+    ],
+)
+def test_elevation_normalizes_common_unit_aliases(
+    source_unit: str,
+    target_unit: str,
+) -> None:
+    assert (
+        semantic_codes(elevation_project(source_unit=source_unit, target_unit=target_unit)) == set()
+    )
+
+
+def test_elevation_rejects_unknown_units() -> None:
+    findings = semantic_findings(elevation_project(source_unit="fathom", target_unit="m"))
+    unknown = [item for item in findings if item.code == "FIELD_ELEVATION_UNIT_UNKNOWN"]
+
+    assert len(unknown) == 1
+    assert unknown[0].details == {"side": "source", "unit": "fathom"}
+
+
+def test_elevation_accepts_direct_same_unit_mapping() -> None:
+    assert semantic_codes(elevation_project(source_unit="ft", target_unit="foot")) == set()
+
+
+def test_elevation_requires_expression_for_unit_conversion() -> None:
+    assert "FIELD_ELEVATION_CONVERSION_MISSING" in semantic_codes(
+        elevation_project(source_unit="us_survey_ft", target_unit="m")
+    )
+    assert (
+        semantic_codes(
+            elevation_project(
+                source_unit="us_survey_ft",
+                target_unit="m",
+                expression="elevation_source * 0.3048006096",
+            )
+        )
+        == set()
+    )
