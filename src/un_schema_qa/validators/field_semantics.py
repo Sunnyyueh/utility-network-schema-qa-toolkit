@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from un_schema_qa.models import FieldMapping, Finding, MappingPair, Severity
+from un_schema_qa.models import FieldMapping, FieldSchema, Finding, MappingPair, Severity
 from un_schema_qa.normalization import normalize_header
 
 from .base import ValidationContext, finding
@@ -26,11 +26,12 @@ class FieldSemanticsValidator:
             for field_mapping in mapping.field_mappings:
                 if not field_mapping.semantic_role:
                     continue
-                findings.extend(self._field(mapping, field_mapping))
+                findings.extend(self._field(context, mapping, field_mapping))
         return findings
 
     def _field(
         self,
+        context: ValidationContext,
         mapping: MappingPair,
         field_mapping: FieldMapping,
     ) -> list[Finding]:
@@ -66,6 +67,62 @@ class FieldSemanticsValidator:
                     mapping_id=mapping.mapping_id,
                     location=field_mapping.location,
                     details={"semantic_role": role},
+                )
+            )
+        source_dataset = context.project.source_dataset(mapping.source_dataset)
+        target_dataset = context.project.target_dataset(mapping.target_dataset)
+        source_field = (
+            source_dataset.field(field_mapping.source_field)
+            if source_dataset and field_mapping.source_field
+            else None
+        )
+        target_field = target_dataset.field(field_mapping.target_field) if target_dataset else None
+        if source_field is None or target_field is None:
+            return findings
+        if role == "lifecycle_status":
+            findings.extend(
+                self._lifecycle_status(mapping, field_mapping, source_field, target_field)
+            )
+        return findings
+
+    def _lifecycle_status(
+        self,
+        mapping: MappingPair,
+        field_mapping: FieldMapping,
+        source_field: FieldSchema,
+        target_field: FieldSchema,
+    ) -> list[Finding]:
+        findings: list[Finding] = []
+        if not source_field.domain:
+            findings.append(
+                finding(
+                    "FIELD_LIFECYCLE_SOURCE_DOMAIN_MISSING",
+                    Severity.ERROR,
+                    self.name,
+                    f"Lifecycle source field {source_field.name!r} has no coded-value domain.",
+                    "Assign and export the source lifecycle domain, including target_code "
+                    "crosswalks where codes differ.",
+                    dataset=mapping.source_dataset,
+                    field=source_field.name,
+                    mapping_id=mapping.mapping_id,
+                    location=field_mapping.location,
+                    details={"side": "source"},
+                )
+            )
+        if not target_field.domain:
+            findings.append(
+                finding(
+                    "FIELD_LIFECYCLE_TARGET_DOMAIN_MISSING",
+                    Severity.ERROR,
+                    self.name,
+                    f"Lifecycle target field {target_field.name!r} has no coded-value domain.",
+                    "Assign and export the target lifecycle domain so status crosswalks "
+                    "can be reviewed.",
+                    dataset=mapping.target_dataset,
+                    field=target_field.name,
+                    mapping_id=mapping.mapping_id,
+                    location=field_mapping.location,
+                    details={"side": "target"},
                 )
             )
         return findings
