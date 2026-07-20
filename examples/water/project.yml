@@ -17,6 +17,7 @@ validation:
   enabled:
     - schema
     - mapping
+    - field_semantics
     - filters
     - domains
     - asset_classification
@@ -28,4 +29,3 @@ validation:
 outputs:
   directory: reports
   formats: [json, csv, markdown, html]
-

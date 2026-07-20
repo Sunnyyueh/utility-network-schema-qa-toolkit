@@ -1,6 +1,11 @@
-mapping_id,source_dataset,target_dataset,source_field,target_field,definition_query,purpose,expected_count,selected_count,loaded_count,asset_group,asset_type,rationale,network_role,flow_regime,nominal_diameter,lifecycle_status
-water-transmission,LegacyWaterLine,WaterLine,material,material,network_role = 'Transmission' AND lifecycle_status = 'Active',Select active transmission mains for the transmission asset type,4,4,4,Main,Transmission Main,Transmission function and large diameter support this classification,Transmission,pressurized,750,Active
-water-transmission,LegacyWaterLine,WaterLine,diameter,diameter,,,,,,,,,,,
-water-distribution,LegacyWaterLine,WaterLine,material,material,network_role = 'Distribution' AND lifecycle_status = 'Active',Select active distribution mains for the distribution asset type,6,6,6,Main,Distribution Main,Distribution function and service role support this classification,Distribution,pressurized,250,Active
-water-distribution,LegacyWaterLine,WaterLine,diameter,diameter,,,,,,,,,,,
-
+mapping_id,source_dataset,target_dataset,source_field,target_field,definition_query,purpose,expected_count,selected_count,loaded_count,asset_group,asset_type,rationale,network_role,flow_regime,nominal_diameter,lifecycle_status,expression,semantic_role,source_unit,target_unit,source_vertical_datum,target_vertical_datum,field_rationale
+water-transmission,LegacyWaterLine,WaterLine,material,material,network_role = 'Transmission' AND lifecycle_status = 'Active',Select active transmission mains for the transmission asset type,4,4,4,Main,Transmission Main,Transmission function and large diameter support this classification,Transmission,pressurized,750,Active,,,,,,,
+water-transmission,LegacyWaterLine,WaterLine,diameter,diameter,,,,,,,,,,,,,,,,,,,
+water-transmission,LegacyWaterLine,WaterLine,lifecycle_status,lifecycle_status,,,,,,,,,,,,,,lifecycle_status,,,,,Crosswalk legacy lifecycle values to the target lifecycle domain.
+water-transmission,LegacyWaterLine,WaterLine,owner_name,owner,,,,,,,,,,,,,UPPER(owner_name),owner,,,,,Normalize owner names for target stewardship review.
+water-transmission,LegacyWaterLine,WaterLine,elevation_ft,elevation,,,,,,,,,,,,,elevation_ft * 0.3048006096,elevation,us_survey_ft,m,NAVD88,NAVD88,Convert US survey feet to metres in the shared NAVD88 datum.
+water-distribution,LegacyWaterLine,WaterLine,material,material,network_role = 'Distribution' AND lifecycle_status = 'Active',Select active distribution mains for the distribution asset type,6,6,6,Main,Distribution Main,Distribution function and service role support this classification,Distribution,pressurized,250,Active,,,,,,,
+water-distribution,LegacyWaterLine,WaterLine,diameter,diameter,,,,,,,,,,,,,,,,,,,
+water-distribution,LegacyWaterLine,WaterLine,lifecycle_status,lifecycle_status,,,,,,,,,,,,,,lifecycle_status,,,,,Crosswalk legacy lifecycle values to the target lifecycle domain.
+water-distribution,LegacyWaterLine,WaterLine,owner_name,owner,,,,,,,,,,,,,UPPER(owner_name),owner,,,,,Normalize owner names for target stewardship review.
+water-distribution,LegacyWaterLine,WaterLine,elevation_ft,elevation,,,,,,,,,,,,,elevation_ft * 0.3048006096,elevation,us_survey_ft,m,NAVD88,NAVD88,Convert US survey feet to metres in the shared NAVD88 datum.

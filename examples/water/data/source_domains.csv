@@ -1,4 +1,6 @@
 domain,code,description,target_code,field_type
 LegacyMaterial,DI,Ductile Iron,DI,text
 LegacyMaterial,PVC,Polyvinyl Chloride,PVC,text
-
+LegacyLifecycle,Active,Active,1,text
+LegacyLifecycle,Inactive,Inactive,2,text
+LegacyLifecycle,Abandoned,Abandoned,3,text

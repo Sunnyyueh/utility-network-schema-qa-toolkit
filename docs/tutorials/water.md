@@ -18,5 +18,8 @@ Open `examples/water/data/mappings.csv`. Each mapping has a mutually exclusive `
 
 Open `examples/water/rules/engineering_rules.yml`. Transmission requires transmission role, active lifecycle, and diameter at or above 600. Distribution requires distribution role, active lifecycle, and diameter below 600. Change a mapped asset type to observe `ASSET_RULE_DISAGREEMENT`.
 
-Review JSON for automation, HTML for stakeholder review, and CSV for downstream analysis. Restore the synthetic file after experimentation.
+## Review field semantics
 
+The same mapping CSV declares `lifecycle_status`, `owner`, and `elevation` semantic roles for each partition. Review the lifecycle domain crosswalk, owner text lengths and normalization rationale, and elevation units, vertical datums, and conversion expression. The validator checks exported schema and mapping metadata; it does not read features or execute the expressions.
+
+Review JSON for automation, HTML for stakeholder review, and CSV for downstream analysis. Restore the synthetic file after experimentation.

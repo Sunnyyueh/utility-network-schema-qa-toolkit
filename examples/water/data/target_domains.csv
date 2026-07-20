@@ -1,7 +1,9 @@
 domain,code,description,field_type
 TargetMaterial,DI,Ductile Iron,text
 TargetMaterial,PVC,Polyvinyl Chloride,text
+TargetLifecycle,1,Active,text
+TargetLifecycle,2,Inactive,text
+TargetLifecycle,3,Abandoned,text
 WaterAssetGroup,1,Main,integer
 WaterAssetType,10,Transmission Main,integer
 WaterAssetType,11,Distribution Main,integer
-

@@ -1,6 +1,8 @@
-dataset,geometry_type,field,data_type,nullable,required,domain,asset_group_field,asset_type_field
-WaterLine,polyline,material,text,false,true,TargetMaterial,assetgroup,assettype
-WaterLine,polyline,diameter,double,false,false,,assetgroup,assettype
-WaterLine,polyline,assetgroup,integer,false,false,WaterAssetGroup,assetgroup,assettype
-WaterLine,polyline,assettype,integer,false,false,WaterAssetType,assetgroup,assettype
-
+dataset,geometry_type,field,data_type,nullable,required,length,domain,asset_group_field,asset_type_field
+WaterLine,polyline,material,text,false,true,64,TargetMaterial,assetgroup,assettype
+WaterLine,polyline,diameter,double,false,false,,,assetgroup,assettype
+WaterLine,polyline,lifecycle_status,text,false,true,32,TargetLifecycle,assetgroup,assettype
+WaterLine,polyline,owner,text,true,false,128,,assetgroup,assettype
+WaterLine,polyline,elevation,double,true,false,,,assetgroup,assettype
+WaterLine,polyline,assetgroup,integer,false,false,,WaterAssetGroup,assetgroup,assettype
+WaterLine,polyline,assettype,integer,false,false,,WaterAssetType,assetgroup,assettype

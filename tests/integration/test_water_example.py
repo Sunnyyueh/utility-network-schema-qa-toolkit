@@ -20,6 +20,7 @@ def test_water_example_is_a_complete_reviewable_warning_scenario(
     assert result.validators == (
         "schema",
         "mapping",
+        "field_semantics",
         "filters",
         "domains",
         "asset_classification",
@@ -28,5 +29,6 @@ def test_water_example_is_a_complete_reviewable_warning_scenario(
         "network_rules",
         "dirty_areas",
     )
+    assert not any(item.code.startswith("FIELD_") for item in result.findings)
     assert set(outputs) == {"json", "csv", "markdown", "html"}
     assert all(path.is_file() for path in outputs.values())
