@@ -38,12 +38,31 @@ def test_every_finding_code_is_in_catalog() -> None:
         path.read_text(encoding="utf-8")
         for path in (ROOT / "src" / "un_schema_qa" / "validators").glob("*.py")
     )
-    prefixes = "SCHEMA|MAP|FILTER|DOMAIN|ASSET|DATAREF|ATTR_RULE|NETWORK_RULE|DIRTY_AREA"
+    prefixes = "SCHEMA|MAP|FIELD|FILTER|DOMAIN|ASSET|DATAREF|ATTR_RULE|NETWORK_RULE|DIRTY_AREA"
     codes = set(re.findall(rf'"(({prefixes})_[A-Z0-9_]+)"', source))
     catalog = read("finding-codes.md")
 
     assert codes
     assert all(f"`{code}`" in catalog for code, _ in codes)
+
+
+def test_semantic_field_mapping_input_is_documented() -> None:
+    documentation = read("input-formats.md")
+
+    assert all(
+        f"`{name}`" in documentation
+        for name in (
+            "semantic_role",
+            "source_unit",
+            "target_unit",
+            "source_vertical_datum",
+            "target_vertical_datum",
+            "field_rationale",
+            "lifecycle_status",
+            "owner",
+            "elevation",
+        )
+    )
 
 
 def test_every_cli_command_and_public_symbol_is_documented() -> None:

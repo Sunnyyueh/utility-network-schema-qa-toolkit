@@ -17,7 +17,7 @@ Codes are stable identifiers for automation and exact-code severity overrides. M
 | `SCHEMA_ASSET_GROUP_FIELD_UNKNOWN` | The asset-group metadata references no field. |
 | `SCHEMA_ASSET_TYPE_FIELD_UNKNOWN` | The asset-type metadata references no field. |
 
-## Mapping and filters
+## Mapping
 
 | Code | Meaning |
 | --- | --- |
@@ -32,6 +32,29 @@ Codes are stable identifiers for automation and exact-code severity overrides. M
 | `MAP_INPUT_MISSING` | Target mapping has no source, expression, or default. |
 | `MAP_TRANSFORM_CONFLICT` | Expression and lookup are both declared. |
 | `MAP_LOOKUP_UNKNOWN` | Lookup/domain name is not inventoried. |
+
+## Field semantics
+
+| Code | Meaning |
+| --- | --- |
+| `FIELD_SEMANTIC_ROLE_UNKNOWN` | A field row declares a semantic role other than lifecycle status, owner, or elevation. |
+| `FIELD_SEMANTIC_RATIONALE_MISSING` | A semantic field mapping lacks review rationale. |
+| `FIELD_LIFECYCLE_SOURCE_DOMAIN_MISSING` | A lifecycle-status source field has no coded-value domain. |
+| `FIELD_LIFECYCLE_TARGET_DOMAIN_MISSING` | A lifecycle-status target field has no coded-value domain. |
+| `FIELD_OWNER_TYPE_INVALID` | An owner source or target field is not text. |
+| `FIELD_OWNER_LENGTH_RISK` | Known owner source length exceeds target length and may truncate values. |
+| `FIELD_OWNER_DOMAIN_ASYMMETRIC` | Only one side of an owner mapping declares a coded-value domain. |
+| `FIELD_ELEVATION_TYPE_INVALID` | An elevation source or target field is not numeric. |
+| `FIELD_ELEVATION_UNIT_MISSING` | Source or target elevation unit metadata is absent. |
+| `FIELD_ELEVATION_UNIT_UNKNOWN` | A supplied elevation unit cannot be normalized to a supported unit. |
+| `FIELD_ELEVATION_CONVERSION_MISSING` | Different elevation units have no conversion expression. |
+| `FIELD_ELEVATION_DATUM_MISSING` | Source or target vertical datum metadata is absent. |
+| `FIELD_ELEVATION_DATUM_TRANSFORM_MISSING` | Different vertical datums have no transformation expression. |
+
+## Filters
+
+| Code | Meaning |
+| --- | --- |
 | `FILTER_SYNTAX_INVALID` | Filter is outside the supported syntax subset. |
 | `FILTER_FIELD_UNKNOWN` | Filter references an unknown source field. |
 | `FILTER_PURPOSE_MISSING` | Filter scope lacks documentation. |
@@ -100,4 +123,3 @@ Codes are stable identifiers for automation and exact-code severity overrides. M
 | `DIRTY_AREA_CODE_UNKNOWN` | Code has no explicit remediation catalog/category. |
 | `DIRTY_AREA_REMEDIATION_MISSING` | Group has no remediation category. |
 | `DIRTY_AREA_GROUP` | Aggregated dataset/code/severity issue group. |
-

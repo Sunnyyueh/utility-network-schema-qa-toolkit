@@ -22,6 +22,18 @@ Per-mapping audit columns include:
 
 Definition Queries are source-side filters. This toolkit does not define a target-side Definition Query feature.
 
+### Field-semantic mapping columns
+
+Each field row may declare optional metadata for focused Utility Network mapping QA:
+
+- `semantic_role`: `lifecycle_status`, `owner`, or `elevation`
+- `field_rationale`: why the crosswalk, normalization, conversion, or review is appropriate
+- `source_unit` and `target_unit`: required for `elevation`; supported canonical values are `m`, `ft`, and `us_survey_ft`, with common aliases
+- `source_vertical_datum` and `target_vertical_datum`: required for `elevation` and compared case-insensitively after trimming
+- `expression`: required when elevation units or vertical datums differ; retained as reviewable metadata and not executed
+
+For `lifecycle_status`, assign source and target coded-value domains so the domain validator can review the explicit `target_code` crosswalk. For `owner`, use text fields and ensure the target length is not shorter; if either side uses a domain, both sides must use one. These checks inspect exported schemas and mapping metadata, not feature values.
+
 ## Domains and crosswalks
 
 Domain rows use `domain`, `code`, and `description`. A source value may add `target_code` to document an explicit crosswalk. `field_type` is optional. Codes are treated as text for stable comparison.
@@ -37,4 +49,3 @@ Domain rows use `domain`, `code`, and `description`. A source value may add `tar
 - Engineering rules: YAML rule list described in [Validation Rules](validation-rules.md).
 
 See the three projects under `examples/` for complete synthetic files.
-

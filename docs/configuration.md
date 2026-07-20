@@ -20,7 +20,7 @@ inputs:
   dirty_areas: data/dirty_areas.csv
   engineering_rules: rules/engineering.yml
 validation:
-  enabled: [schema, mapping, filters, domains, asset_classification]
+  enabled: [schema, mapping, field_semantics, filters, domains, asset_classification]
   fail_on: error
   severity_overrides:
     FILTER_EXPECTED_COUNT_MISSING: info
@@ -41,9 +41,10 @@ outputs:
 
 `enabled` accepts stable names listed in [Validation Rules](validation-rules.md). `severity_overrides` maps an exact finding code to `info`, `warning`, or `error`. Overrides do not hide findings. `fail_on` records the project policy; CLI exit behavior is described in [CLI](cli.md).
 
+`field_semantics` is metadata-only. It runs for mapping rows that explicitly declare a supported `semantic_role`; rows without a role remain backward compatible. The check compares exported source/target field schemas with the mapping metadata and never reads feature records or evaluates an expression.
+
 ## Outputs
 
 `directory` is created if needed. Existing fixed report files in that directory are atomically replaced. Formats are `json`, `csv`, `markdown`, and `html`; duplicates and unknown formats are rejected.
 
 Use only paths and exports appropriate for the intended reviewers. Keep credentials, tokens, secured service URLs, authentication profiles, connection strings, and sensitive infrastructure records out of manifests and generated reports.
-

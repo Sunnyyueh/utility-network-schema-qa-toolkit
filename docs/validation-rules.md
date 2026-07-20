@@ -12,7 +12,13 @@ Checks source and target datasets/fields, required target coverage, direct type 
 
 ## `field_semantics`
 
-Checks explicitly declared lifecycle status, owner, and elevation mapping roles. It reviews role support and field-level rationale without reading feature records or executing expressions. Role-specific domain, length, unit, conversion, and vertical datum checks are described below as they are enabled by mapping metadata.
+Checks explicitly declared lifecycle status, owner, and elevation mapping roles. Every declared role must be supported and should include a field-level rationale.
+
+- `lifecycle_status` requires coded-value domains on both source and target fields. The `domains` validator then checks whether each source code maps directly or through `target_code`.
+- `owner` requires text fields, warns when a known source length exceeds the target length, and requires domains on both sides when either side is coded.
+- `elevation` requires numeric fields; declared source/target units; recognized metre, international-foot, or US-survey-foot units; and source/target vertical datums. Different units require a conversion expression, and different datum names require a transformation expression.
+
+Unit aliases normalize before comparison. Datum names are trimmed and compared case-insensitively but otherwise exactly. The validator reviews exported schema and mapping metadata without reading feature records, inspecting owner values, or executing an expression or coordinate operation.
 
 ## `filters`
 
