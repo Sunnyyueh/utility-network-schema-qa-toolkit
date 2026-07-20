@@ -65,6 +65,27 @@ def test_semantic_field_mapping_input_is_documented() -> None:
     )
 
 
+def test_semantic_finding_catalog_documents_default_severity() -> None:
+    catalog = read("finding-codes.md")
+    expected = {
+        "FIELD_SEMANTIC_ROLE_UNKNOWN": "error",
+        "FIELD_SEMANTIC_RATIONALE_MISSING": "warning",
+        "FIELD_LIFECYCLE_SOURCE_DOMAIN_MISSING": "error",
+        "FIELD_LIFECYCLE_TARGET_DOMAIN_MISSING": "error",
+        "FIELD_OWNER_TYPE_INVALID": "error",
+        "FIELD_OWNER_LENGTH_RISK": "warning",
+        "FIELD_OWNER_DOMAIN_ASYMMETRIC": "error",
+        "FIELD_ELEVATION_TYPE_INVALID": "error",
+        "FIELD_ELEVATION_UNIT_MISSING": "error",
+        "FIELD_ELEVATION_UNIT_UNKNOWN": "error",
+        "FIELD_ELEVATION_CONVERSION_MISSING": "error",
+        "FIELD_ELEVATION_DATUM_MISSING": "error",
+        "FIELD_ELEVATION_DATUM_TRANSFORM_MISSING": "error",
+    }
+
+    assert all(f"| `{code}` | `{severity}` |" in catalog for code, severity in expected.items())
+
+
 def test_every_cli_command_and_public_symbol_is_documented() -> None:
     cli_source = (ROOT / "src" / "un_schema_qa" / "cli.py").read_text(encoding="utf-8")
     commands = set(re.findall(r'@app\.command\("([a-z-]+)"\)', cli_source))

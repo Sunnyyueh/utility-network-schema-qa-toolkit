@@ -35,21 +35,21 @@ Codes are stable identifiers for automation and exact-code severity overrides. M
 
 ## Field semantics
 
-| Code | Meaning |
-| --- | --- |
-| `FIELD_SEMANTIC_ROLE_UNKNOWN` | A field row declares a semantic role other than lifecycle status, owner, or elevation. |
-| `FIELD_SEMANTIC_RATIONALE_MISSING` | A semantic field mapping lacks review rationale. |
-| `FIELD_LIFECYCLE_SOURCE_DOMAIN_MISSING` | A lifecycle-status source field has no coded-value domain. |
-| `FIELD_LIFECYCLE_TARGET_DOMAIN_MISSING` | A lifecycle-status target field has no coded-value domain. |
-| `FIELD_OWNER_TYPE_INVALID` | An owner source or target field is not text. |
-| `FIELD_OWNER_LENGTH_RISK` | Known owner source length exceeds target length and may truncate values. |
-| `FIELD_OWNER_DOMAIN_ASYMMETRIC` | Only one side of an owner mapping declares a coded-value domain. |
-| `FIELD_ELEVATION_TYPE_INVALID` | An elevation source or target field is not numeric. |
-| `FIELD_ELEVATION_UNIT_MISSING` | Source or target elevation unit metadata is absent. |
-| `FIELD_ELEVATION_UNIT_UNKNOWN` | A supplied elevation unit cannot be normalized to a supported unit. |
-| `FIELD_ELEVATION_CONVERSION_MISSING` | Different elevation units have no conversion expression. |
-| `FIELD_ELEVATION_DATUM_MISSING` | Source or target vertical datum metadata is absent. |
-| `FIELD_ELEVATION_DATUM_TRANSFORM_MISSING` | Different vertical datums have no transformation expression. |
+| Code | Default severity | Meaning |
+| --- | --- | --- |
+| `FIELD_SEMANTIC_ROLE_UNKNOWN` | `error` | A field row declares a semantic role other than lifecycle status, owner, or elevation. |
+| `FIELD_SEMANTIC_RATIONALE_MISSING` | `warning` | A semantic field mapping lacks review rationale. |
+| `FIELD_LIFECYCLE_SOURCE_DOMAIN_MISSING` | `error` | A lifecycle-status source field has no coded-value domain. |
+| `FIELD_LIFECYCLE_TARGET_DOMAIN_MISSING` | `error` | A lifecycle-status target field has no coded-value domain. |
+| `FIELD_OWNER_TYPE_INVALID` | `error` | An owner source or target field is not text. |
+| `FIELD_OWNER_LENGTH_RISK` | `warning` | Known owner source length exceeds target length and may truncate values. |
+| `FIELD_OWNER_DOMAIN_ASYMMETRIC` | `error` | Only one side of an owner mapping declares a coded-value domain. |
+| `FIELD_ELEVATION_TYPE_INVALID` | `error` | An elevation source or target field is not numeric. |
+| `FIELD_ELEVATION_UNIT_MISSING` | `error` | Source or target elevation unit metadata is absent. |
+| `FIELD_ELEVATION_UNIT_UNKNOWN` | `error` | A supplied elevation unit cannot be normalized to a supported unit. |
+| `FIELD_ELEVATION_CONVERSION_MISSING` | `error` | Different elevation units have no conversion expression. |
+| `FIELD_ELEVATION_DATUM_MISSING` | `error` | Source or target vertical datum metadata is absent. |
+| `FIELD_ELEVATION_DATUM_TRANSFORM_MISSING` | `error` | Different vertical datums have no transformation expression. |
 
 ## Filters
 
