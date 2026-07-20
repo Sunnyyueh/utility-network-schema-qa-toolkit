@@ -10,6 +10,10 @@ Checks duplicate datasets/fields, supported normalized types, empty field invent
 
 Checks source and target datasets/fields, required target coverage, direct type compatibility, duplicate target assignments, missing inputs, conflicting expression/lookup paths, unknown lookups, and disabled mappings.
 
+## `field_semantics`
+
+Checks explicitly declared lifecycle status, owner, and elevation mapping roles. It reviews role support and field-level rationale without reading feature records or executing expressions. Role-specific domain, length, unit, conversion, and vertical datum checks are described below as they are enabled by mapping metadata.
+
 ## `filters`
 
 Tokenizes a documented SQL-style subset without execution. It checks syntax, referenced source fields, purpose, expected scope, empty selections, expected-versus-selected and selected-versus-loaded counts, required filters for one-source-to-many partitions, and provable simple overlap risk. Complex overlap returns unknown rather than a false guarantee.
@@ -41,4 +45,3 @@ Checks supported types, asset endpoints, terminal references, exact/reverse dupl
 Checks feature identifiers and severity, then groups exported issues by dataset, error code, and severity with an explicit remediation category. It does not inspect a live topology.
 
 Severity is `info`, `warning`, or `error`; aggregate status is `pass`, `warning`, or `fail`.
-

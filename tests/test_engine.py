@@ -65,6 +65,7 @@ def test_default_registry_has_documented_order() -> None:
     assert build_default_registry().names == (
         "schema",
         "mapping",
+        "field_semantics",
         "filters",
         "domains",
         "asset_classification",
@@ -94,6 +95,7 @@ def test_engine_skips_optional_empty_inventories() -> None:
     assert result.validators == (
         "schema",
         "mapping",
+        "field_semantics",
         "filters",
         "domains",
         "asset_classification",

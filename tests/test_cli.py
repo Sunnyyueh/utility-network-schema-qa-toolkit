@@ -58,6 +58,7 @@ def test_cli_help_version_and_list_checks() -> None:
     assert __version__ in version_result.stdout
     assert checks_result.exit_code == 0
     assert "asset_classification" in checks_result.stdout
+    assert "field_semantics" in checks_result.stdout
     assert "definition" in checks_result.stdout.casefold()
 
 

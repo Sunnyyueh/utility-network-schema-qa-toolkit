@@ -15,6 +15,7 @@ from .models.common import StrictModel
 DEFAULT_CHECKS = (
     "schema",
     "mapping",
+    "field_semantics",
     "filters",
     "domains",
     "asset_classification",

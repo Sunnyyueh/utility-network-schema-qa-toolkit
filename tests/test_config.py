@@ -36,6 +36,10 @@ inputs:
     assert config.outputs.formats == ("json", "csv", "markdown", "html")
 
 
+def test_default_checks_include_field_semantics() -> None:
+    assert "field_semantics" in DEFAULT_CHECKS
+
+
 def test_load_complete_config_preserves_policy(tmp_path: Path) -> None:
     manifest = write_manifest(
         tmp_path,

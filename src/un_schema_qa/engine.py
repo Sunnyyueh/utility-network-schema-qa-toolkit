@@ -15,6 +15,7 @@ from .validators import (
     DataReferenceValidator,
     DirtyAreaValidator,
     DomainValidator,
+    FieldSemanticsValidator,
     FilterValidator,
     MappingValidator,
     NetworkRuleValidator,
@@ -53,6 +54,7 @@ def build_default_registry() -> ValidatorRegistry:
         (
             SchemaValidator(),
             MappingValidator(),
+            FieldSemanticsValidator(),
             FilterValidator(),
             DomainValidator(),
             AssetClassificationValidator(),

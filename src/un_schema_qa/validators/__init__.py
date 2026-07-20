@@ -6,6 +6,7 @@ from .base import ValidationContext, Validator
 from .data_reference import DataReferenceValidator
 from .dirty_areas import DirtyAreaValidator
 from .domains import DomainValidator
+from .field_semantics import FieldSemanticsValidator
 from .filters import FilterValidator
 from .mapping import MappingValidator
 from .network_rules import NetworkRuleValidator
@@ -17,6 +18,7 @@ __all__ = [
     "DataReferenceValidator",
     "DirtyAreaValidator",
     "DomainValidator",
+    "FieldSemanticsValidator",
     "FilterValidator",
     "MappingValidator",
     "NetworkRuleValidator",

@@ -26,6 +26,7 @@ app = typer.Typer(
 _CHECK_DESCRIPTIONS = {
     "schema": "Source and target field, type, geometry, and metadata consistency.",
     "mapping": "Dataset, field, required-target, type, lookup, and transform checks.",
+    "field_semantics": "Lifecycle, owner, elevation unit, datum, and rationale checks.",
     "filters": "Source-side Definition Query syntax, fields, scope, counts, and overlap.",
     "domains": "Coded-value definitions, defaults, crosswalks, and asset codes.",
     "asset_classification": "Target inventory and explainable engineering rationale.",
