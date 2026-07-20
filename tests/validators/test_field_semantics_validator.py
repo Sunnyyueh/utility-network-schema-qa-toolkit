@@ -119,6 +119,18 @@ def test_field_semantics_skips_disabled_mappings() -> None:
     assert semantic_codes(project) == set()
 
 
+def test_field_semantics_treats_blank_role_as_undeclared() -> None:
+    project = semantic_project(
+        FieldMapping(
+            source_field="status",
+            target_field="lifecycle_status",
+            semantic_role="   ",
+        )
+    )
+
+    assert semantic_codes(project) == set()
+
+
 def lifecycle_project(
     source_domain: str | None,
     target_domain: str | None,
@@ -236,6 +248,12 @@ def test_owner_accepts_documented_expression_normalization() -> None:
     assert semantic_codes(owner_project(expression="UPPER(owner_name)")) == set()
 
 
+def test_field_semantics_treats_blank_rationale_as_missing() -> None:
+    assert "FIELD_SEMANTIC_RATIONALE_MISSING" in semantic_codes(
+        owner_project(field_rationale="   ")
+    )
+
+
 def elevation_project(
     *,
     source_type: str = "double",
@@ -279,6 +297,12 @@ def test_elevation_requires_both_units() -> None:
 
     assert len(missing) == 1
     assert missing[0].details["missing"] == ["source_unit", "target_unit"]
+
+
+def test_elevation_treats_blank_unit_as_missing() -> None:
+    assert semantic_codes(elevation_project(source_unit="   ", target_unit="m")) == {
+        "FIELD_ELEVATION_UNIT_MISSING"
+    }
 
 
 @pytest.mark.parametrize(
@@ -367,4 +391,17 @@ def test_elevation_requires_expression_for_vertical_datum_transform() -> None:
             )
         )
         == set()
+    )
+
+
+def test_elevation_treats_blank_expression_as_missing() -> None:
+    assert "FIELD_ELEVATION_CONVERSION_MISSING" in semantic_codes(
+        elevation_project(source_unit="ft", target_unit="m", expression="   ")
+    )
+    assert "FIELD_ELEVATION_DATUM_TRANSFORM_MISSING" in semantic_codes(
+        elevation_project(
+            source_datum="NGVD29",
+            target_datum="NAVD88",
+            expression="   ",
+        )
     )

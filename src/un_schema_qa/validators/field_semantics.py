@@ -42,7 +42,7 @@ class FieldSemanticsValidator:
             if not mapping.enabled:
                 continue
             for field_mapping in mapping.field_mappings:
-                if not field_mapping.semantic_role:
+                if not field_mapping.semantic_role or not field_mapping.semantic_role.strip():
                     continue
                 findings.extend(self._field(context, mapping, field_mapping))
         return findings
@@ -72,7 +72,7 @@ class FieldSemanticsValidator:
             ]
 
         findings: list[Finding] = []
-        if not field_mapping.field_rationale:
+        if not field_mapping.field_rationale or not field_mapping.field_rationale.strip():
             findings.append(
                 finding(
                     "FIELD_SEMANTIC_RATIONALE_MISSING",
@@ -262,7 +262,7 @@ class FieldSemanticsValidator:
             "source": field_mapping.source_unit,
             "target": field_mapping.target_unit,
         }
-        missing = [f"{side}_unit" for side, unit in units.items() if not unit]
+        missing = [f"{side}_unit" for side, unit in units.items() if not unit or not unit.strip()]
         if missing:
             findings.append(
                 finding(
@@ -281,7 +281,7 @@ class FieldSemanticsValidator:
 
         canonical_units: dict[str, str] = {}
         for side, unit in units.items():
-            if not unit:
+            if not unit or not unit.strip():
                 continue
             canonical = _UNIT_ALIASES.get(normalize_header(unit))
             if canonical is None:
@@ -307,7 +307,7 @@ class FieldSemanticsValidator:
         if (
             canonical_units.keys() == {"source", "target"}
             and canonical_units["source"] != canonical_units["target"]
-            and not field_mapping.expression
+            and (not field_mapping.expression or not field_mapping.expression.strip())
         ):
             findings.append(
                 finding(
@@ -355,7 +355,7 @@ class FieldSemanticsValidator:
             datums["source"] is not None
             and datums["target"] is not None
             and datums["source"].strip().casefold() != datums["target"].strip().casefold()
-            and not field_mapping.expression
+            and (not field_mapping.expression or not field_mapping.expression.strip())
         ):
             findings.append(
                 finding(
