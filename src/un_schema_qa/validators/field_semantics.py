@@ -83,6 +83,8 @@ class FieldSemanticsValidator:
             findings.extend(
                 self._lifecycle_status(mapping, field_mapping, source_field, target_field)
             )
+        elif role == "owner":
+            findings.extend(self._owner(mapping, field_mapping, source_field, target_field))
         return findings
 
     def _lifecycle_status(
@@ -123,6 +125,83 @@ class FieldSemanticsValidator:
                     mapping_id=mapping.mapping_id,
                     location=field_mapping.location,
                     details={"side": "target"},
+                )
+            )
+        return findings
+
+    def _owner(
+        self,
+        mapping: MappingPair,
+        field_mapping: FieldMapping,
+        source_field: FieldSchema,
+        target_field: FieldSchema,
+    ) -> list[Finding]:
+        findings: list[Finding] = []
+        for side, dataset, schema_field in (
+            ("source", mapping.source_dataset, source_field),
+            ("target", mapping.target_dataset, target_field),
+        ):
+            if schema_field.data_type.casefold() != "text":
+                findings.append(
+                    finding(
+                        "FIELD_OWNER_TYPE_INVALID",
+                        Severity.ERROR,
+                        self.name,
+                        f"Owner {side} field {schema_field.name!r} uses "
+                        f"{schema_field.data_type!r} instead of text.",
+                        "Use text fields for owner names or document a separate "
+                        "identifier mapping.",
+                        dataset=dataset,
+                        field=schema_field.name,
+                        mapping_id=mapping.mapping_id,
+                        location=field_mapping.location,
+                        details={
+                            "side": side,
+                            "data_type": schema_field.data_type,
+                        },
+                    )
+                )
+        if (
+            source_field.length is not None
+            and target_field.length is not None
+            and source_field.length > target_field.length
+        ):
+            findings.append(
+                finding(
+                    "FIELD_OWNER_LENGTH_RISK",
+                    Severity.WARNING,
+                    self.name,
+                    f"Owner source length {source_field.length} exceeds target length "
+                    f"{target_field.length}.",
+                    "Increase the target length or document a controlled normalization "
+                    "that prevents truncation.",
+                    dataset=mapping.target_dataset,
+                    field=target_field.name,
+                    mapping_id=mapping.mapping_id,
+                    location=field_mapping.location,
+                    details={
+                        "source_length": source_field.length,
+                        "target_length": target_field.length,
+                    },
+                )
+            )
+        if bool(source_field.domain) != bool(target_field.domain):
+            findings.append(
+                finding(
+                    "FIELD_OWNER_DOMAIN_ASYMMETRIC",
+                    Severity.ERROR,
+                    self.name,
+                    "Owner mapping declares a coded-value domain on only one side.",
+                    "Export and assign owner domains on both sides so the coded-value "
+                    "crosswalk can be reviewed, or use text on both sides.",
+                    dataset=mapping.target_dataset,
+                    field=target_field.name,
+                    mapping_id=mapping.mapping_id,
+                    location=field_mapping.location,
+                    details={
+                        "source_domain": source_field.domain,
+                        "target_domain": target_field.domain,
+                    },
                 )
             )
         return findings
